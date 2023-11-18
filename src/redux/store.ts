@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { UserInfoReducer } from './reducer/userinfo';
 
 const store = configureStore({
-    reducer: {},
+    reducer: {
+        userInfo: UserInfoReducer,
+    },
 });
 
 export default store;

@@ -3,7 +3,7 @@ import { faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useRef, useState } from 'react';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, Col, Row, Spinner } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 
@@ -11,12 +11,13 @@ import validator from 'validator';
 
 function SignUp() {
     const textWarningPass: string =
-        'Mật khẩu phải nhiều hơn 8 ký tự, ít nhất 1 chữ thường 1 chữ in hoa, 1 chữ số';
-    const stringEmtpy: string = 'Vui lòng nhập trường này';
+        'Password must have more than 8 characters, at least 1 lowercase letter, 1 uppercase letter, 1 number';
+    const stringEmtpy: string = 'Please enter this field';
 
     const [loading, setLoading] = useState<Boolean>(false);
 
-    const [username, setUsername] = useState<string>('');
+    const [firstName, setFirstName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
     const [isBorderNoneUsername, setIsBorderNoneUsername] = useState<Boolean>(true);
     const [isValidUsername, setIsValidUsername] = useState<Boolean>(false);
     const inputUsername = useRef<HTMLDivElement>(null);
@@ -50,7 +51,7 @@ function SignUp() {
                 return;
             }
             if (validator.isEmail(email) === false) {
-                const stringFalseEmail = 'Vui lòng nhập địa chỉ email chính xác';
+                const stringFalseEmail = 'Please enter correct email address';
                 inputEmail.current.innerText = stringFalseEmail;
                 setIsBorderNoneEmail(false);
                 setIsValidEmail(false);
@@ -111,7 +112,7 @@ function SignUp() {
                 return;
             }
             if (password !== passwordConfirm) {
-                const stringFalsePass = 'Mật khẩu nhập lại không đúng';
+                const stringFalsePass = 'Confirm password is incorrect';
                 inputPasswordConfirm.current.innerText = stringFalsePass;
                 setIsBorderNonePasswordConfirm(false);
                 setIsValidPasswordConfirm(false);
@@ -134,7 +135,7 @@ function SignUp() {
     useEffect(() => {
         if (passwordConfirm) {
             if (password !== passwordConfirm) {
-                const stringFalsePass = 'Mật khẩu nhập lại không đúng';
+                const stringFalsePass = 'Confirm password is incorrect';
                 inputPasswordConfirm.current!.innerText = stringFalsePass;
                 setIsBorderNonePasswordConfirm(false);
                 setIsValidPasswordConfirm(false);
@@ -149,7 +150,7 @@ function SignUp() {
     //Handle Check Valid Username
     const handleCheckValidUsername = () => {
         if (inputUsername.current) {
-            if (validator.isEmpty(username) === true) {
+            if (validator.isEmpty(firstName) === true) {
                 inputUsername.current.innerText = stringEmtpy;
                 setIsBorderNoneUsername(false);
                 setIsValidUsername(false);
@@ -158,10 +159,10 @@ function SignUp() {
     };
 
     useEffect(() => {
-        if (username.length > 0) {
+        if (firstName.length > 0) {
             setIsValidUsername(true);
         }
-    }, [username]);
+    }, [firstName]);
 
     const handleFocusUsernameInput = () => {
         if (inputUsername.current) {
@@ -190,28 +191,56 @@ function SignUp() {
     };
 
     return (
-        <div className="mx-auto mt-3 px-2" style={{ maxWidth: '43.75rem' }}>
-            <h2 className="text-center">Đăng ký tài khoản</h2>
+        <div className="mx-auto mt-3 px-2" style={{ maxWidth: '30rem' }}>
+            <h2 className="text-center">Sign Up</h2>
             <Form className="mt-3 d-flex flex-column" ref={formRef} onSubmit={handleSubmitForm}>
-                <Form.Group className="mb-3" controlId="formGroupUsername">
-                    <Form.Label>Nhập tên người dùng</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter username"
-                        name="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        onBlur={handleCheckValidUsername}
-                        onFocus={handleFocusUsernameInput}
-                        className={`${isBorderNoneUsername ? '' : 'border-danger'}`}
-                    />
+                <Form.Group as={Row} className="mb-3" controlId="formGroupUsername">
+                    <Col>
+                        <Form.Control
+                            type="text"
+                            placeholder="First Name"
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            onBlur={handleCheckValidUsername}
+                            onFocus={handleFocusUsernameInput}
+                            className={`${isBorderNoneUsername ? '' : 'border-danger'}`}
+                        />
+                    </Col>
+                    <Col>
+                        <Form.Control
+                            type="text"
+                            placeholder="Last Name"
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            onFocus={handleFocusUsernameInput}
+                        />
+                    </Col>
                     <Form.Text
                         ref={inputUsername}
                         className={`${isBorderNoneUsername ? '' : 'text-danger'}`}
                     ></Form.Text>
                 </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formGroupEmail">
+                    {/* <Form.Label>Nhập địa chỉ email</Form.Label> */}
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        onBlur={handleCheckValidEmail}
+                        onFocus={handleFocusEmailInput}
+                        className={`${isBorderNoneEmail ? '' : 'border-danger'}`}
+                    />
+                    <Form.Text
+                        className={`${isBorderNoneEmail ? '' : 'text-danger'}`}
+                        ref={inputEmail}
+                    ></Form.Text>
+                </Form.Group>
+
                 <Form.Group className="mb-3" controlId="formGroupPassword">
-                    <Form.Label>Nhập mật khẩu</Form.Label>
+                    {/* <Form.Label>Nhập mật khẩu</Form.Label> */}
                     <div className="position-relative">
                         <Form.Control
                             type={typePass}
@@ -246,15 +275,15 @@ function SignUp() {
                         ref={inputPassword}
                         className={`${isBorderNonePassword ? '' : 'text-danger'}`}
                     >
-                        Mật khẩu phải nhiều hơn 8 ký tự, ít nhất 1 chữ thường 1 chữ in hoa, 1 chữ số
+                        {textWarningPass}
                     </Form.Text>
                 </Form.Group>
+
                 <Form.Group className="mb-3" controlId="formGroupPasswordConfirm">
-                    <Form.Label>Nhập lại mật khẩu</Form.Label>
                     <div className="position-relative">
                         <Form.Control
                             type={typePassConfirm}
-                            placeholder="Password"
+                            placeholder="Confirm Password"
                             name="password"
                             value={passwordConfirm}
                             onChange={(e) => setPasswordConfirm(e.target.value)}
@@ -286,38 +315,23 @@ function SignUp() {
                         className={`${isBorderNonePasswordConfirm ? '' : 'text-danger'}`}
                     ></Form.Text>
                 </Form.Group>
-                <Form.Group className="mb-3" controlId="formGroupEmail">
-                    <Form.Label>Nhập địa chỉ email</Form.Label>
-                    <Form.Control
-                        type="text"
-                        placeholder="Enter email"
-                        name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onBlur={handleCheckValidEmail}
-                        onFocus={handleFocusEmailInput}
-                        className={`${isBorderNoneEmail ? '' : 'border-danger'}`}
-                    />
-                    <Form.Text
-                        className={`${isBorderNoneEmail ? '' : 'text-danger'}`}
-                        ref={inputEmail}
-                    ></Form.Text>
-                </Form.Group>
+
                 <Button
                     className="h-100 mt-3 py-3 fs-5 w-75 border rounded-pill align-self-center "
                     variant="danger"
                     type="submit"
+                    onClick={handleSubmitForm}
                 >
                     {loading ? (
                         <Spinner animation="border" variant="light" className="fs-5" />
                     ) : (
-                        <span>Đăng ký</span>
+                        <span>Sign up</span>
                     )}
                 </Button>
                 <div className="my-3 d-flex justify-content-center">
-                    <p>Bạn đã có tài khoản ?</p>
+                    <p>Already a member?</p>
                     <Link to="/sign-in" className="ms-2 text-danger">
-                        Đăng nhập ngay
+                        Login
                     </Link>
                 </div>
             </Form>
