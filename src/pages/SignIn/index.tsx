@@ -1,43 +1,49 @@
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect, useRef, useState } from 'react';
-import { Button, Form, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import validator from 'validator';
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { auth } from "../../firebaseConfig/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useEffect, useRef, useState } from "react";
+import { Button, Form, Spinner } from "react-bootstrap";
+import { Link, Navigate } from "react-router-dom";
+import validator from "validator";
+import { useSelector } from "react-redux";
+import { RootState } from "redux/store";
+import RouteConfig from "routes/Route";
 
 function SignIn() {
-    const stringEmtpy: string = 'Vui lòng nhập trường này';
+    const userInfo = useSelector((state: RootState) => state.userInfoState);
+
+    const stringEmtpy: string = "Vui lòng nhập trường này";
 
     const [loading, setLoading] = useState<Boolean>(false);
 
-    const [username, setUsername] = useState<string>('');
+    const [email, setEmail] = useState<string>("");
     const [isBorderNoneUsername, setIsBorderNoneUsername] = useState<Boolean>(true);
     const [isValidUsername, setIsValidUsername] = useState<Boolean>(false);
     const inputUsername = useRef<HTMLDivElement>(null);
 
-    const [password, setPassword] = useState<string>('');
+    const [password, setPassword] = useState<string>("");
     const [isBorderNonePassword, setisBorderNonePassword] = useState<Boolean>(true);
     const [isValidPassword, setIsValidPassword] = useState<Boolean>(false);
     const inputPassword = useRef<HTMLDivElement>(null);
-    const [typePass, setTypePass] = useState<'password' | 'text'>('password');
 
     const formRef = useRef<HTMLFormElement>(null);
 
     //Handle Check Valid Username
     const handleCheckValidUsername = () => {
-        if (validator.isEmpty(username) === true) {
+        if (validator.isEmpty(email) === true) {
             inputUsername.current!.innerText = stringEmtpy;
             setIsBorderNoneUsername(false);
             setIsValidUsername(false);
         }
     };
     useEffect(() => {
-        if (username.length > 0) {
+        if (email.length > 0) {
             setIsValidUsername(true);
         }
-    }, [username]);
+    }, [email]);
     const handleFocusUsernameInput = () => {
-        inputUsername.current!.innerHTML = '';
+        inputUsername.current!.innerHTML = "";
         setIsBorderNoneUsername(true);
     };
 
@@ -55,7 +61,7 @@ function SignIn() {
         }
     }, [password]);
     const handleFocusPasswordInput = () => {
-        inputPassword.current!.innerHTML = '';
+        inputPassword.current!.innerHTML = "";
         setisBorderNonePassword(true);
     };
 
@@ -67,6 +73,14 @@ function SignIn() {
             setLoading(true);
             // Gọi API xử lý đăng nhập
             try {
+                await signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                    })
+                    .catch((error) => {
+                        alert("Sign in failed");
+                    });
+
                 setLoading(false);
             } catch (error: any) {
                 console.error(new Error(error.message)); // Xử lý lỗi khi đăng nhập không thành công
@@ -75,25 +89,25 @@ function SignIn() {
         }
     };
 
-    return (
-        <div className="mx-auto mt-3 px-2" style={{ maxWidth: '43.75rem' }}>
+    return !userInfo?.email ? (
+        <div className="mx-auto mt-3 px-2" style={{ maxWidth: "43.75rem" }}>
             <h2 className="text-center">Đăng nhập</h2>
             <Form className="mt-3 d-flex flex-column" ref={formRef} onSubmit={handleSubmitForm}>
                 <Form.Group className="mb-3" controlId="formBasicUserName">
                     <Form.Label>Tên người dùng</Form.Label>
                     <Form.Control
                         type="text"
-                        placeholder="Enter username"
-                        name="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Enter email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         onBlur={handleCheckValidUsername}
                         onFocus={handleFocusUsernameInput}
-                        className={`${isBorderNoneUsername ? '' : 'border-danger'}`}
+                        className={`${isBorderNoneUsername ? "" : "border-danger"}`}
                     />
                     <Form.Text
                         ref={inputUsername}
-                        className={`${isBorderNoneUsername ? '' : 'text-danger'}`}
+                        className={`${isBorderNoneUsername ? "" : "text-danger"}`}
                     ></Form.Text>
                 </Form.Group>
 
@@ -101,37 +115,19 @@ function SignIn() {
                     <Form.Label>Mật khẩu</Form.Label>
                     <div className="position-relative">
                         <Form.Control
-                            type={typePass}
+                            type="password"
                             placeholder="Password"
                             name="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             onBlur={handleCheckValidPassword}
                             onFocus={handleFocusPasswordInput}
-                            className={`${isBorderNonePassword ? '' : 'border-danger'}`}
+                            className={`${isBorderNonePassword ? "" : "border-danger"}`}
                         />
-                        {typePass === 'password' && (
-                            <span onClick={() => setTypePass('text')}>
-                                <FontAwesomeIcon
-                                    className="position-absolute top-50 end-2 translate-middle-y"
-                                    icon={faEye}
-                                    style={{ color: 'var(--primary)' }}
-                                />
-                            </span>
-                        )}
-                        {typePass === 'text' && (
-                            <span onClick={() => setTypePass('password')}>
-                                <FontAwesomeIcon
-                                    className="position-absolute top-50 end-2 translate-middle-y"
-                                    icon={faEyeSlash}
-                                    style={{ color: 'var(--primary)' }}
-                                />
-                            </span>
-                        )}
                     </div>
                     <Form.Text
                         ref={inputPassword}
-                        className={`${isBorderNonePassword ? '' : 'text-danger'}`}
+                        className={`${isBorderNonePassword ? "" : "text-danger"}`}
                     ></Form.Text>
                 </Form.Group>
 
@@ -148,12 +144,14 @@ function SignIn() {
                 </Button>
                 <div className="my-4 d-flex justify-content-center">
                     <p>Bạn chưa có tài khoản ?</p>
-                    <Link to="/sign-up" className="ms-2 text-danger">
+                    <Link to={RouteConfig.SIGN_UP} className="ms-2 text-danger">
                         Đăng ký ngay
                     </Link>
                 </div>
             </Form>
         </div>
+    ) : (
+        <Navigate to={RouteConfig.HOME} />
     );
 }
 

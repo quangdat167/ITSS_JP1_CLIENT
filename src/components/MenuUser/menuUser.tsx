@@ -1,10 +1,29 @@
-import { Link } from 'react-router-dom';
-import styles from './MenuUser.module.scss';
-import classNames from 'classnames/bind';
+import { Link } from "react-router-dom";
+import styles from "./MenuUser.module.scss";
+import classNames from "classnames/bind";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "redux/store";
+import { auth } from "firebaseConfig/firebase";
+import { signOutReducer } from "redux/reducer/userinfo";
+import RouteConfig from "routes/Route";
 
 const cx = classNames.bind(styles);
 
-function menuUser() {
+function MenuUser() {
+    const dispatch = useDispatch();
+    const userInfo = useSelector((state: RootState) => state.userInfoState);
+    const handleSignOut = () => {
+        auth.signOut().then(
+            function () {
+                console.log("Signed Out");
+                dispatch(signOutReducer({}));
+                window.location.href = RouteConfig.SIGN_IN;
+            },
+            function (error) {
+                console.error("Sign Out Error", error);
+            },
+        );
+    };
     return (
         <>
             <div className="nav-item dropdown">
@@ -18,9 +37,9 @@ function menuUser() {
                     <img
                         src="https://storage.googleapis.com/hust-files/5807675312963584/images/hust-logo-official_.3m.jpeg"
                         alt="avatar"
-                        className={cx('user-avatar')}
+                        className={cx("user-avatar")}
                     />
-                    User
+                    {userInfo.lastName}
                 </Link>
                 <ul className="dropdown-menu dropdown-menu-end" data-bs-theme="light">
                     <li>
@@ -36,9 +55,9 @@ function menuUser() {
                         <hr className="dropdown-divider" />
                     </li>
                     <li>
-                        <Link className="dropdown-item" to="#">
+                        <div className="dropdown-item" onClick={handleSignOut}>
                             Đăng xuất
-                        </Link>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -46,4 +65,4 @@ function menuUser() {
     );
 }
 
-export default menuUser;
+export default MenuUser;

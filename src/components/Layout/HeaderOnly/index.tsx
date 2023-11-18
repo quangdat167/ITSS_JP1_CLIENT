@@ -1,8 +1,7 @@
-import { ReactNode } from 'react';
 import Header from '../Components/Header';
 import Container from 'react-bootstrap/Container';
 interface HeaderOnlyProps {
-    children?: ReactNode;
+    children?: any;
 }
 
 function HeaderOnly({ children }: HeaderOnlyProps) {

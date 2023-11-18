@@ -3,7 +3,7 @@ import { UserInfoReducer } from './reducer/userinfo';
 
 const store = configureStore({
     reducer: {
-        userInfo: UserInfoReducer,
+        userInfoState: UserInfoReducer,
     },
 });
 

@@ -3,7 +3,7 @@ import Header from '../Components/Header';
 import Container from 'react-bootstrap/Container';
 import Footer from './Footer';
 interface DefaultLayoutProps {
-    children?: ReactNode;
+    children?: any;
 }
 
 function DefaultLayout({ children }: DefaultLayoutProps) {

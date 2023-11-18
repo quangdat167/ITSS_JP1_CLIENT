@@ -1,21 +1,24 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import classnames from 'classnames/bind';
-import styles from './Header.module.scss';
+import classnames from "classnames/bind";
+import styles from "./Header.module.scss";
 
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ButtonAuth from 'components/ButtonAuth/buttonAuth';
-import MenuUser from 'components/MenuUser';
-import { Link } from 'react-router-dom';
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ButtonAuth from "components/ButtonAuth/buttonAuth";
+import MenuUser from "components/MenuUser";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
+import RouteConfig from "routes/Route";
 const cx = classnames.bind(styles);
 
 function Header() {
-    const isLogin = false;
+    const userInfo = useSelector((state: RootState) => state.userInfoState);
     return (
         <div>
-            <nav className="navbar navbar-expand" style={{ backgroundColor: 'var(--primary)' }}>
-                <div className={cx('container-1200', 'container flex-nowrap')}>
-                    <Link className="navbar-brand text-light" to="/">
+            <nav className="navbar navbar-expand" style={{ backgroundColor: "var(--primary)" }}>
+                <div className={cx("container-1200", "container flex-nowrap")}>
+                    <Link className="navbar-brand text-light" to={RouteConfig.HOME}>
                         Analysism
                     </Link>
 
@@ -33,7 +36,7 @@ function Header() {
 
                     <div className="" id="">
                         <ul className="navbar-nav ms-auto align-items-center">
-                            <li>{isLogin ? <MenuUser /> : <ButtonAuth />}</li>
+                            <li>{userInfo?.email ? <MenuUser /> : <ButtonAuth />}</li>
                         </ul>
                     </div>
                 </div>
