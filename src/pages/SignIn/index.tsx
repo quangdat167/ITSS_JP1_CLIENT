@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import { Button, Form, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import validator from 'validator';
-import * as authenService from 'service/authenService';
 
 function SignIn() {
     const stringEmtpy: string = 'Vui lòng nhập trường này';
@@ -68,15 +67,6 @@ function SignIn() {
             setLoading(true);
             // Gọi API xử lý đăng nhập
             try {
-                const result = await authenService.signIn({
-                    username,
-                    password,
-                });
-                // Xử lý phản hồi từ server sau khi đăng nhập thành công
-                if (result) {
-                    console.log(result);
-                    // window.location.href = 'http://localhost:3000';
-                }
                 setLoading(false);
             } catch (error: any) {
                 console.error(new Error(error.message)); // Xử lý lỗi khi đăng nhập không thành công

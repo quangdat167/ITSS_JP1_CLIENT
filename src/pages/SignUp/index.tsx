@@ -8,7 +8,6 @@ import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom';
 
 import validator from 'validator';
-import * as authenService from 'service/authenService';
 
 function SignUp() {
     const textWarningPass: string =
@@ -182,16 +181,6 @@ function SignUp() {
             setLoading(true);
             // Gọi API xử lý đăng ký
             try {
-                const result = await authenService.signUp({
-                    username,
-                    password,
-                    email,
-                });
-                // Xử lý phản hồi từ server sau khi đăng ký thành công
-                if (result) {
-                    console.log(result);
-                    // window.location.href = 'http://localhost:3000';
-                }
                 setLoading(false);
             } catch (error: any) {
                 console.error(new Error(error.message)); // Xử lý lỗi khi đăng ký không thành công
