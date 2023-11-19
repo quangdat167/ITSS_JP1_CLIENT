@@ -11,7 +11,15 @@ function DefaultLayout({ children }: DefaultLayoutProps) {
         <div>
             <Header />
             <DrawerLeft />
-            <Container fluid style={{ minHeight: 600, margin: "56px 0 0 240px" }}>
+            <Container
+                fluid
+                style={{
+                    padding: 8,
+                    minHeight: 600,
+                    margin: "56px 0 0 240px",
+                    width: "calc(100vw - 240px)",
+                }}
+            >
                 {children}
             </Container>
             {/* <Footer /> */}

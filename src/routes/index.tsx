@@ -6,10 +6,10 @@ import SignIn from "pages/SignIn";
 import SignUp from "pages/SignUp";
 import { DefaultLayout } from "components/Layout";
 import RouteConfig from "./Route";
-import { CalendarPage } from "pages/Calendar";
 import { DashboardPage } from "pages/Dashboard";
 import { MyTaskPage } from "pages/My-Task";
 import { WorkspacePage } from "pages/Workspace";
+import CalendarPage from "pages/Calendar";
 
 interface RouterConfig {
     path: string;
