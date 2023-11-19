@@ -15,9 +15,8 @@ function MenuUser() {
     const handleSignOut = () => {
         auth.signOut().then(
             function () {
-                console.log("Signed Out");
                 dispatch(signOutReducer({}));
-                window.location.href = RouteConfig.SIGN_IN;
+                // window.location.href = RouteConfig.SIGN_IN;
             },
             function (error) {
                 console.error("Sign Out Error", error);

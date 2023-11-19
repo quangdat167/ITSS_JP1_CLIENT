@@ -15,7 +15,7 @@ const cx = classnames.bind(styles);
 function Header() {
     const userInfo = useSelector((state: RootState) => state.userInfoState);
     return (
-        <div>
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0 }}>
             <nav className="navbar navbar-expand" style={{ backgroundColor: "var(--primary)" }}>
                 <div className={cx("container-1200", "container flex-nowrap")}>
                     <Link className="navbar-brand text-light" to={RouteConfig.HOME}>

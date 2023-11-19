@@ -1,21 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import GlobalStyles from './components/GlobalStyles';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import GlobalStyles from "./components/GlobalStyles";
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.js';
-import './customBootstrap.scss';
-import { Provider } from 'react-redux';
-import store from './redux/store';
+import "bootstrap/dist/js/bootstrap.js";
+import "./customBootstrap.scss";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import "@fontsource/roboto";
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-        <GlobalStyles>
-            <App />
-        </GlobalStyles>
+            <GlobalStyles>
+                <App />
+            </GlobalStyles>
         </Provider>
     </React.StrictMode>,
 );

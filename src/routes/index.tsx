@@ -6,6 +6,10 @@ import SignIn from "pages/SignIn";
 import SignUp from "pages/SignUp";
 import { DefaultLayout } from "components/Layout";
 import RouteConfig from "./Route";
+import { CalendarPage } from "pages/Calendar";
+import { DashboardPage } from "pages/Dashboard";
+import { MyTaskPage } from "pages/My-Task";
+import { WorkspacePage } from "pages/Workspace";
 
 interface RouterConfig {
     path: string;
@@ -21,6 +25,10 @@ const publicRoutes: RouterConfig[] = [
 
 const privateRoutes: RouterConfig[] = [
     { path: RouteConfig.HOME, component: Home, layout: DefaultLayout },
+    { path: RouteConfig.CALENDAR, component: CalendarPage, layout: DefaultLayout },
+    { path: RouteConfig.DASHBOARD, component: DashboardPage, layout: DefaultLayout },
+    { path: RouteConfig.MY_TASK, component: MyTaskPage, layout: DefaultLayout },
+    { path: RouteConfig.WORKSPACE, component: WorkspacePage, layout: DefaultLayout },
 ];
 
 export { publicRoutes, privateRoutes };

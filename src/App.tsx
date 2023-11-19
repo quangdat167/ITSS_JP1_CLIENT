@@ -4,9 +4,9 @@ import { DefaultLayout } from "./components/Layout";
 import { privateRoutes, publicRoutes } from "./routes";
 import { auth } from "./firebaseConfig/firebase";
 import { useDispatch } from "react-redux";
-import { getUserInfoApi } from "service/authenService";
-import { getUserInfoReducer } from "redux/reducer/userinfo";
-import RouteConfig from "routes/Route";
+import RouteConfig from "./routes/Route";
+import { getUserInfoApi } from "./service/authenService";
+import { getUserInfoReducer } from "./redux/reducer/userinfo";
 
 function App() {
     const dispatch = useDispatch();
@@ -16,7 +16,11 @@ function App() {
             setIsSignedIn(!!user);
             if (user?.email) {
                 const userInfo = await getUserInfoApi({ email: user?.email });
-                dispatch(getUserInfoReducer(userInfo));
+                if (userInfo.email) {
+                    dispatch(getUserInfoReducer(userInfo));
+                } else {
+                    alert("Khong co data trong db");
+                }
             }
         });
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
@@ -69,8 +73,9 @@ function App() {
                             );
                         })
                     ) : (
+                        <></>
                         // Redirect to sign-in if not signed in
-                        <Route path="*" element={<Navigate to={RouteConfig.SIGN_IN} />} />
+                        // <Route path="*" element={<Navigate to={RouteConfig.SIGN_IN} />} />
                     )}
                 </Routes>
             </div>
