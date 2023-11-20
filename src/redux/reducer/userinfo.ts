@@ -1,21 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IUserInfo {
-    _id: any;
+    _id: string;
     firstName: string;
     lastName: string;
     avatar?: string;
     email: string;
+    password: string;
     createdAt?: Date;
     updatedAt?: Date;
 }
 
-export const initialState = {
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-};
+export const initialState: IUserInfo = {} as IUserInfo;
 
 export const UserInfoSlice = createSlice({
     name: "userInfoState",

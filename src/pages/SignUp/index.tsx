@@ -8,7 +8,7 @@ import { auth } from "../../firebaseConfig/firebase";
 
 import { useDispatch, useSelector } from "react-redux";
 import { loginReducer } from "redux/reducer/userinfo";
-import { loginApi } from "service/authenService";
+import { loginApi } from "service/authen.service";
 import validator from "validator";
 import { RootState } from "redux/store";
 import RouteConfig from "routes/Route";

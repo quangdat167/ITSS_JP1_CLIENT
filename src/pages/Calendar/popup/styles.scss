@@ -1,0 +1,43 @@
+.dialog-add-task-wrapper {
+    .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .space-between {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .range-time {
+                margin-top: 16px;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+        }
+        .MuiFormControl-root {
+            margin: 0;
+        }
+    }
+}
+
+.dialog-add-event-wrapper {
+    .content-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .space-between {
+            .range-time {
+                margin-top: 16px;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+        }
+        .MuiFormControl-root {
+            margin: 0;
+        }
+    }
+}

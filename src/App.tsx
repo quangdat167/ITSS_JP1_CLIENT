@@ -5,7 +5,7 @@ import { privateRoutes, publicRoutes } from "./routes";
 import { auth } from "./firebaseConfig/firebase";
 import { useDispatch } from "react-redux";
 import RouteConfig from "./routes/Route";
-import { getUserInfoApi } from "./service/authenService";
+import { getUserInfoApi } from "./service/authen.service";
 import { getUserInfoReducer } from "./redux/reducer/userinfo";
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
             setIsSignedIn(!!user);
             if (user?.email) {
                 const userInfo = await getUserInfoApi({ email: user?.email });
-                if (userInfo.email) {
+                if (userInfo?.email) {
                     dispatch(getUserInfoReducer(userInfo));
                 } else {
                     alert("Khong co data trong db");

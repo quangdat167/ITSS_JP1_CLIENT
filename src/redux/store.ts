@@ -1,9 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit';
-import { UserInfoReducer } from './reducer/userinfo';
+import { configureStore } from "@reduxjs/toolkit";
+import { UserInfoReducer } from "./reducer/userinfo";
+import { EventReducer } from "./reducer/event";
 
 const store = configureStore({
     reducer: {
         userInfoState: UserInfoReducer,
+        eventState: EventReducer,
     },
 });
 
