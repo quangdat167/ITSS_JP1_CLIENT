@@ -31,10 +31,18 @@ function SignIn() {
 
     //Handle Check Valid Username
     const handleCheckValidUsername = () => {
-        if (validator.isEmpty(email) === true) {
-            inputUsername.current!.innerText = stringEmtpy;
-            setIsBorderNoneUsername(false);
-            setIsValidUsername(false);
+        if (inputUsername.current) {
+            if (validator.isEmpty(email) === true) {
+                inputUsername.current!.innerText = stringEmtpy;
+                setIsBorderNoneUsername(false);
+                setIsValidUsername(false);
+            }
+            if (validator.isEmail(email) === false) {
+                const stringFalseEmail = "Please enter correct email address";
+                inputUsername.current.innerText = stringFalseEmail;
+                setIsBorderNoneUsername(false);
+                setIsValidUsername(false);
+            }
         }
     };
     useEffect(() => {
@@ -90,11 +98,10 @@ function SignIn() {
     };
 
     return !userInfo?.email ? (
-        <div className="mx-auto mt-3 px-2" style={{ maxWidth: "43.75rem" }}>
-            <h2 className="text-center">Đăng nhập</h2>
+        <div className="mx-auto px-2" style={{ maxWidth: "30rem", marginTop: 100 }}>
+            <h2 className="text-center">Analysism</h2>
             <Form className="mt-3 d-flex flex-column" ref={formRef} onSubmit={handleSubmitForm}>
                 <Form.Group className="mb-3" controlId="formBasicUserName">
-                    <Form.Label>Tên người dùng</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="Enter email"
@@ -112,7 +119,6 @@ function SignIn() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>Mật khẩu</Form.Label>
                     <div className="position-relative">
                         <Form.Control
                             type="password"
@@ -139,13 +145,13 @@ function SignIn() {
                     {loading ? (
                         <Spinner animation="border" variant="light" className="fs-5" />
                     ) : (
-                        <span>Đăng nhập</span>
+                        <span>Sign In</span>
                     )}
                 </Button>
                 <div className="my-4 d-flex justify-content-center">
-                    <p>Bạn chưa có tài khoản ?</p>
+                    <p>Not have account?</p>
                     <Link to={RouteConfig.SIGN_UP} className="ms-2 text-danger">
-                        Đăng ký ngay
+                        Sign up now!
                     </Link>
                 </div>
             </Form>

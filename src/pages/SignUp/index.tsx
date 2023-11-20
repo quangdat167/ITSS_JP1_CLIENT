@@ -207,7 +207,7 @@ function SignUp() {
     };
 
     return !userInfo?.email ? (
-        <div className="mx-auto mt-3 px-2" style={{ maxWidth: "30rem" }}>
+        <div className="mx-auto px-2" style={{ maxWidth: "30rem", marginTop: 100 }}>
             <h2 className="text-center">Sign Up</h2>
             <Form className="mt-5 d-flex flex-column" ref={formRef} onSubmit={handleSubmitForm}>
                 <Form.Group as={Row} className="mb-3" controlId="formGroupUsername">
