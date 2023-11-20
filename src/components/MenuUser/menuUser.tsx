@@ -16,6 +16,7 @@ function MenuUser() {
         auth.signOut().then(
             function () {
                 dispatch(signOutReducer({}));
+                window.location.pathname = RouteConfig.SIGN_IN;
                 // window.location.href = RouteConfig.SIGN_IN;
             },
             function (error) {

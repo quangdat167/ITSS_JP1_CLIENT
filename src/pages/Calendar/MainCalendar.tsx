@@ -1,27 +1,36 @@
-import { faLaptopHouse, faPhoneSlash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Calendar } from "react-calendar";
-import { useState } from "react";
 import {
-    format,
-    subMonths,
-    addMonths,
-    startOfWeek,
     addDays,
+    addMonths,
+    addWeeks,
+    format,
+    getWeek,
     isSameDay,
     lastDayOfWeek,
-    getWeek,
-    addWeeks,
+    startOfWeek,
+    subMonths,
     subWeeks,
 } from "date-fns";
+import { useState } from "react";
 
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import moment from "moment";
+import { useSelector } from "react-redux";
+import { IEvent } from "redux/reducer/event";
+import { RootState } from "redux/store";
+import Config from "utils/Config";
+import PopupAddEvent from "./popup/addEventPopup";
 import "./styles.scss";
 
 export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Function }) => {
+    const listEvent = useSelector((state: RootState) => state.eventState);
+    const [openPopupAddEvent, setOpenPopupAddEvent] = useState(false);
+    const [selectedEvent, setSelectedEvent] = useState({} as IEvent);
+    const [mode, setMode] = useState("");
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [currentWeek, setCurrentWeek] = useState(getWeek(currentMonth));
     const [selectedDate, setSelectedDate] = useState(new Date());
-
     const changeMonthHandle = (btnType: string) => {
         if (btnType === "prev") {
             setCurrentMonth(subMonths(currentMonth, 1));
@@ -51,7 +60,7 @@ export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Functio
     };
 
     const renderHeader = () => {
-        const dateFormat = "MMM yyyy";
+        const dateFormat = "MMMM yyyy";
         // console.log("selected day", selectedDate);
         return (
             <div className="header row flex-middle">
@@ -105,12 +114,34 @@ export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Functio
                         }`}
                         key={i}
                         onClick={() => {
-                            const dayStr = format(cloneDay, "ccc dd MMM yy");
-                            onDateClickHandle(cloneDay, dayStr);
+                            // const dayStr = format(cloneDay, "ccc dd MMM yy");
+                            // onDateClickHandle(cloneDay, dayStr);
                         }}
                     >
                         <span className="number">{formattedDate}</span>
-                        <span className="bg">{formattedDate}</span>
+                        {/* <span className="bg">{formattedDate}</span> */}
+                        <div className="list-event">
+                            {listEvent.map((event, index) => {
+                                const eventDate = moment(event.startTime);
+                                const cloneDate = moment(cloneDay);
+
+                                if (eventDate.isSame(cloneDate, "day")) {
+                                    return (
+                                        <ListItem className="item" disablePadding key={event._id}>
+                                            <ListItemButton
+                                                onClick={() => {
+                                                    setOpenPopupAddEvent(true);
+                                                    setSelectedEvent(event);
+                                                    setMode(Config.MODE_VIEW_EVENT);
+                                                }}
+                                            >
+                                                <ListItemText primary={event.name} />
+                                            </ListItemButton>
+                                        </ListItem>
+                                    );
+                                }
+                            })}
+                        </div>
                     </div>,
                 );
                 day = addDays(day, 1);
@@ -146,6 +177,13 @@ export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Functio
             {renderDays()}
             {renderCells()}
             {renderFooter()}
+            <PopupAddEvent
+                selectedEvent={selectedEvent}
+                mode={mode}
+                setMode={setMode}
+                open={openPopupAddEvent}
+                setOpen={setOpenPopupAddEvent}
+            />
         </div>
     );
 };

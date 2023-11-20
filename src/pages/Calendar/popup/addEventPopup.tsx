@@ -4,14 +4,18 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import moment from "moment";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { IEvent, addEvent, deleteEvent, editOneEvent } from "redux/reducer/event";
 import { RootState } from "redux/store";
-import { createEventApi, editEventByUserIdApi } from "service/event.service";
+import {
+    createEventApi,
+    deleteEventByUserIdApi,
+    editEventByUserIdApi,
+} from "service/event.service";
 import Config from "utils/Config";
 import "./styles.scss";
-import { IEvent, addEvent, editOneEvent } from "redux/reducer/event";
-import moment from "moment";
 export default function PopupAddEvent({
     open,
     setOpen,
@@ -133,6 +137,16 @@ export default function PopupAddEvent({
         }
     };
 
+    const handleDeleteEvent = async () => {
+        const shouldDelete = window.confirm("Delete event?");
+
+        if (shouldDelete && selectedEvent) {
+            await deleteEventByUserIdApi({ _id: selectedEvent?._id });
+            dispatch(deleteEvent(selectedEvent?._id));
+            handleClose();
+        }
+    };
+
     return (
         <>
             <Dialog
@@ -239,6 +253,11 @@ export default function PopupAddEvent({
                 </DialogContent>
 
                 <DialogActions>
+                    {mode === Config.MODE_VIEW_EVENT && (
+                        <Button onClick={handleDeleteEvent} color="error" variant="contained">
+                            Delete
+                        </Button>
+                    )}
                     <Button onClick={handleClose}>Cancel</Button>
                     {mode === Config.MODE_CREATE_EVENT && (
                         <Button onClick={handleAddEvent} variant="contained">

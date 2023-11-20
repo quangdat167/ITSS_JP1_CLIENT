@@ -1,20 +1,21 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { RootState } from "redux/store";
 import { DefaultLayout } from "./components/Layout";
-import { privateRoutes, publicRoutes } from "./routes";
 import { auth } from "./firebaseConfig/firebase";
-import { useDispatch } from "react-redux";
-import RouteConfig from "./routes/Route";
-import { getUserInfoApi } from "./service/authen.service";
 import { getUserInfoReducer } from "./redux/reducer/userinfo";
+import { privateRoutes, publicRoutes } from "./routes";
+import { getUserInfoApi } from "./service/authen.service";
 
 function App() {
     const dispatch = useDispatch();
     const [isSignedIn, setIsSignedIn] = useState(false);
+    const userInfoState = useSelector((state: RootState) => state.userInfoState);
     useEffect(() => {
         const unregisterAuthObserver = auth.onAuthStateChanged(async (user) => {
             setIsSignedIn(!!user);
-            if (user?.email) {
+            if (user?.email && !userInfoState?.email) {
                 const userInfo = await getUserInfoApi({ email: user?.email });
                 if (userInfo?.email) {
                     dispatch(getUserInfoReducer(userInfo));

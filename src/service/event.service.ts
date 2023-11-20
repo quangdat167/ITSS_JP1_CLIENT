@@ -39,3 +39,12 @@ export const editEventByUserIdApi = (args: {
         return data;
     });
 };
+
+export const deleteEventByUserIdApi = (args: { _id: string }) => {
+    return POST({
+        url: APIConfig.DELETING_EVENT,
+        params: args,
+    }).then((data: any) => {
+        return data;
+    });
+};

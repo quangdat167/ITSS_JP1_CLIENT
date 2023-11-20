@@ -1,7 +1,7 @@
 .calendar {
-    --main-color: #d70018;
+    --main-color: var(--primary);
     --text-color: #777;
-    --text-color-light: #ccc;
+    --text-color-light: #000;
     --border-color: #eee;
     --bg-color: #f9f9f9;
     --neutral-color: #fff;
@@ -44,6 +44,32 @@
     .col-end {
         justify-content: flex-end;
         text-align: right;
+    }
+
+    .list-event {
+        margin-top: 2em;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .item {
+            border-top: 0.3px solid #eee;
+            border-bottom: 0.3px solid #eee;
+
+            span {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .MuiButtonBase-root {
+                padding: 8px;
+            }
+        }
+    }
+
+    .current-week {
+        width: auto;
     }
 }
 
@@ -110,11 +136,15 @@
 }
 .calendar .body .today {
     border-left: 10px solid transparent;
-    border-image: linear-gradient(45deg, #ff1a79 0%, #eb82b3 40%);
+    border-image: linear-gradient(180deg, var(--main-color) 10%, var(--main-color) 20%);
     border-image-slice: 1;
 }
 .calendar .body .row {
     border-bottom: 1px solid #eee;
+
+    > * {
+        padding: 0;
+    }
 }
 
 /* .calendar .body .row:last-child {
@@ -166,7 +196,7 @@
     flex-grow: 0;
     flex-basis: calc(100% / 7);
     width: calc(100% / 7);
-    min-height: calc((100vh - 350px));
+    min-height: calc((100vh - 300px));
 }
 
 .calendar-wrapper {
@@ -206,7 +236,7 @@
 
             .react-calendar__tile--now {
                 background: none;
-                color: #ff1493;
+                color: var(--primary);
             }
 
             .modify {
@@ -239,6 +269,12 @@
             .MuiBox-root {
                 display: flex;
                 flex-direction: column;
+
+                span {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
             }
 
             .header {
