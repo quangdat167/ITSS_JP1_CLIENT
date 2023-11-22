@@ -1,5 +1,5 @@
-import APIConfig from 'utils/APIConfig';
-import { POST } from 'utils/url';
+import APIConfig from "utils/APIConfig";
+import { POST } from "utils/url";
 
 export const loginApi = ({
     firstName,
@@ -28,6 +28,17 @@ export const loginApi = ({
 export const getUserInfoApi = ({ email }: { email: string }) => {
     return POST({
         url: APIConfig.GET_USER_INFO,
+        params: {
+            email,
+        },
+    }).then((data: any) => {
+        return data;
+    });
+};
+
+export const searchUserByEmail = ({ email }: { email: string }) => {
+    return POST({
+        url: APIConfig.SEARCH_USER_EMAIL,
         params: {
             email,
         },

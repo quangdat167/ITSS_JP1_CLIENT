@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IEvent, addEvent, deleteEvent, editOneEvent } from "redux/reducer/event";
 import { RootState } from "redux/store";
@@ -22,12 +22,14 @@ export default function PopupAddEvent({
     mode = Config.MODE_CREATE_EVENT,
     setMode,
     selectedEvent,
+    selectedDay,
 }: {
     open: boolean;
     setOpen: Function;
     mode: string;
     setMode: Function;
     selectedEvent?: IEvent;
+    selectedDay?: Date;
 }) {
     const dispatch = useDispatch();
     const userInfo = useSelector((state: RootState) => state.userInfoState);
@@ -44,6 +46,11 @@ export default function PopupAddEvent({
         setEndTime("");
         setOpen(false);
     };
+
+    useEffect(() => {
+        setStartTime(moment(selectedDay).format("YYYY-MM-DDTHH:mm"));
+        setEndTime(moment(selectedDay).format("YYYY-MM-DDTHH:mm"));
+    }, [selectedDay]);
 
     const isValidField = () => {
         if (name.length > 0 && startTime.length > 0 && endTime.length > 0) {

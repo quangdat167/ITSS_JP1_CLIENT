@@ -10,7 +10,7 @@ import DraftsIcon from "@mui/icons-material/Drafts";
 import Button from "@mui/material/Button";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import { useState } from "react";
-import PopupAddEvent from "./popup/addEventPopup";
+import PopupAddEvent from "../../components/popup/addEventPopup";
 import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
 import { IEvent } from "redux/reducer/event";

@@ -20,7 +20,7 @@ import { useSelector } from "react-redux";
 import { IEvent } from "redux/reducer/event";
 import { RootState } from "redux/store";
 import Config from "utils/Config";
-import PopupAddEvent from "./popup/addEventPopup";
+import PopupAddEvent from "../../components/popup/addEventPopup";
 import "./styles.scss";
 
 export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Function }) => {
@@ -31,6 +31,7 @@ export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Functio
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [currentWeek, setCurrentWeek] = useState(getWeek(currentMonth));
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedDay, setSelectedDay] = useState(new Date());
     const changeMonthHandle = (btnType: string) => {
         if (btnType === "prev") {
             setCurrentMonth(subMonths(currentMonth, 1));
@@ -114,6 +115,9 @@ export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Functio
                         }`}
                         key={i}
                         onClick={() => {
+                            setOpenPopupAddEvent(true);
+                            setMode(Config.MODE_CREATE_EVENT);
+                            setSelectedDay(cloneDay);
                             // const dayStr = format(cloneDay, "ccc dd MMM yy");
                             // onDateClickHandle(cloneDay, dayStr);
                         }}
@@ -129,7 +133,8 @@ export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Functio
                                     return (
                                         <ListItem className="item" disablePadding key={event._id}>
                                             <ListItemButton
-                                                onClick={() => {
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
                                                     setOpenPopupAddEvent(true);
                                                     setSelectedEvent(event);
                                                     setMode(Config.MODE_VIEW_EVENT);
@@ -183,6 +188,7 @@ export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Functio
                 setMode={setMode}
                 open={openPopupAddEvent}
                 setOpen={setOpenPopupAddEvent}
+                selectedDay={selectedDay}
             />
         </div>
     );

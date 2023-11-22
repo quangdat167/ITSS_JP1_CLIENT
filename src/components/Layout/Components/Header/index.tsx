@@ -26,7 +26,7 @@ function Header() {
                         <input
                             className="form-control me-1"
                             type="search"
-                            placeholder="Tìm kiếm "
+                            placeholder="Search..."
                             aria-label="Search"
                         />
                         <button className="btn btn-outline-light d-none d-sm-block" type="submit">

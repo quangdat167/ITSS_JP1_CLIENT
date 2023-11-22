@@ -1,7 +1,7 @@
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { auth } from "../../firebaseConfig/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { Button, Form, Spinner } from "react-bootstrap";
 import { Link, Navigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
 import RouteConfig from "routes/Route";
 
-function SignIn() {
+function ForgotPasswordPage() {
     const userInfo = useSelector((state: RootState) => state.userInfoState);
 
     const stringEmtpy: string = "Vui lòng nhập trường này";
@@ -21,11 +21,6 @@ function SignIn() {
     const [isBorderNoneUsername, setIsBorderNoneUsername] = useState<Boolean>(true);
     const [isValidUsername, setIsValidUsername] = useState<Boolean>(false);
     const inputUsername = useRef<HTMLDivElement>(null);
-
-    const [password, setPassword] = useState<string>("");
-    const [isBorderNonePassword, setisBorderNonePassword] = useState<Boolean>(true);
-    const [isValidPassword, setIsValidPassword] = useState<Boolean>(false);
-    const inputPassword = useRef<HTMLDivElement>(null);
 
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -55,38 +50,24 @@ function SignIn() {
         setIsBorderNoneUsername(true);
     };
 
-    // Handle Check Valid Password
-    const handleCheckValidPassword = () => {
-        if (validator.isEmpty(password) === true) {
-            inputPassword.current!.innerText = stringEmtpy;
-            setisBorderNonePassword(false);
-            setIsValidPassword(false);
-        }
-    };
-    useEffect(() => {
-        if (password.length > 0) {
-            setIsValidPassword(true);
-        }
-    }, [password]);
-    const handleFocusPasswordInput = () => {
-        inputPassword.current!.innerHTML = "";
-        setisBorderNonePassword(true);
-    };
-
     const handleSubmitForm = async (e: React.FormEvent) => {
         e.preventDefault();
         handleCheckValidUsername();
-        handleCheckValidPassword();
-        if (isValidPassword && isValidUsername) {
+        if (isValidUsername) {
             setLoading(true);
             // Gọi API xử lý đăng nhập
             try {
-                await signInWithEmailAndPassword(auth, email, password)
-                    .then((userCredential) => {
-                        const user = userCredential.user;
+                await sendPasswordResetEmail(auth, email)
+                    .then(() => {
+                        setTimeout(() => {
+                            window.open(RouteConfig.SIGN_IN, "_self");
+                        }, 5000);
                     })
                     .catch((error) => {
-                        alert("Sign in failed");
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        alert("EMAIL NOT EXIST");
+                        // ..
                     });
 
                 setLoading(false);
@@ -99,7 +80,11 @@ function SignIn() {
 
     return !userInfo?.email ? (
         <div className="mx-auto px-2" style={{ maxWidth: "30rem", marginTop: 100 }}>
-            <h2 className="text-center">Analysism</h2>
+            <h2 className="text-center">Forgot password</h2>
+            <div className="small my-3 ">
+                Lost your password? Please enter your email address. You will receive a link to
+                create a new password via email
+            </div>
             <Form className="mt-3 d-flex flex-column" ref={formRef} onSubmit={handleSubmitForm}>
                 <Form.Group className="mb-3" controlId="formBasicUserName">
                     <Form.Control
@@ -118,31 +103,6 @@ function SignIn() {
                     ></Form.Text>
                 </Form.Group>
 
-                <Form.Group className="mb-2 " controlId="formBasicPassword">
-                    <div className="position-relative">
-                        <Form.Control
-                            type="password"
-                            placeholder="Password"
-                            name="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            onBlur={handleCheckValidPassword}
-                            onFocus={handleFocusPasswordInput}
-                            className={`${isBorderNonePassword ? "" : "border-danger"}`}
-                        />
-                    </div>
-                    <Form.Text
-                        ref={inputPassword}
-                        className={`${isBorderNonePassword ? "" : "text-danger"}`}
-                    ></Form.Text>
-                </Form.Group>
-
-                <div className="small mb-2 d-flex justify-content-end">
-                    <a href={RouteConfig.FORGOT_PASSWORD} className="text-reset">
-                        Forgot your password?
-                    </a>
-                </div>
-
                 <Button
                     className="mt-3 py-3 w-75 border rounded-pill align-self-center "
                     variant="danger"
@@ -151,15 +111,9 @@ function SignIn() {
                     {loading ? (
                         <Spinner animation="border" variant="light" className="fs-5" />
                     ) : (
-                        <span>Sign In</span>
+                        <span>Reset password</span>
                     )}
                 </Button>
-                <div className="my-4 d-flex justify-content-center">
-                    <p>Not have account?</p>
-                    <Link to={RouteConfig.SIGN_UP} className="ms-2 text-danger">
-                        Sign up now!
-                    </Link>
-                </div>
             </Form>
         </div>
     ) : (
@@ -167,4 +121,4 @@ function SignIn() {
     );
 }
 
-export default SignIn;
+export default ForgotPasswordPage;

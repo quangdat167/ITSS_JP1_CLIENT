@@ -12,7 +12,7 @@ export default function ButtonAuth() {
                 icon={faCircleUser}
                 style={{ color: "#ffffff" }}
             />
-            Đăng nhập
+            Sign in
         </Link>
     );
 }

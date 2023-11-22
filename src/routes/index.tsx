@@ -10,6 +10,7 @@ import { DashboardPage } from "pages/Dashboard";
 import { MyTaskPage } from "pages/My-Task";
 import { WorkspacePage } from "pages/Workspace";
 import CalendarPage from "pages/Calendar";
+import ForgotPasswordPage from "pages/ForgotPassword";
 
 interface RouterConfig {
     path: string;
@@ -21,6 +22,7 @@ interface RouterConfig {
 const publicRoutes: RouterConfig[] = [
     { path: RouteConfig.SIGN_UP, component: SignUp, layout: HeaderOnly },
     { path: RouteConfig.SIGN_IN, component: SignIn, layout: HeaderOnly },
+    { path: RouteConfig.FORGOT_PASSWORD, component: ForgotPasswordPage, layout: HeaderOnly },
 ];
 
 const privateRoutes: RouterConfig[] = [
