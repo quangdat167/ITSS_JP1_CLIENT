@@ -16,6 +16,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import LinearProgress, { LinearProgressProps } from "@mui/material/LinearProgress";
 import moment from "moment";
+import TableTaskInWorkspace from "components/table-task-in-workspace";
 export interface IUserWorkspace {
     _id: string;
     role: number;
@@ -39,10 +40,23 @@ export interface ITask {
     startTime: Date;
     deadline: Date;
     priority: string;
-    progress: number;
+    status: string;
     workspaceId?: string;
     type: string;
     projectId?: string;
+    // firstName?: string[];
+    // lastName?: string[];
+    // role?: number[];
+    // userId?: string[];
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+export interface ITaskOfWorkspace extends ITask {
+    firstName: string[];
+    lastName: string[];
+    role: number[];
+    userId: string[];
 }
 
 export interface DetailWorkspace {
@@ -53,7 +67,7 @@ export interface DetailWorkspace {
     member: IUserInfo[];
     members: IUserWorkspace[];
     project?: IProject[];
-    task?: ITask[];
+    tasks: ITaskOfWorkspace[];
     createdAt?: Date;
     updatedAt?: Date;
 }
@@ -98,10 +112,7 @@ export const WorkspaceDetailPage = () => {
             <div className="my-3 d-flex">
                 <AvatarGroup total={workspace.members?.length}>
                     {workspace.member?.map((mem, index) => (
-                        <Avatar
-                            alt={mem.lastName + " " + mem.firstName}
-                            src="/static/images/avatar/1.jpg"
-                        />
+                        <Avatar alt={mem.lastName + " " + mem.firstName} src="/" />
                     ))}
                 </AvatarGroup>
             </div>
@@ -155,7 +166,7 @@ export const WorkspaceDetailPage = () => {
                     const deadlineDate = moment(project.deadline);
                     const daysLeft = deadlineDate.diff(currentDate, "days");
                     return (
-                        <Card sx={{ minWidth: 200 }}>
+                        <Card sx={{ minWidth: 200 }} key={index}>
                             <CardContent>
                                 <Typography sx={{ fontSize: 16, fontWeight: 500 }} gutterBottom>
                                     {project.name}
@@ -175,6 +186,10 @@ export const WorkspaceDetailPage = () => {
                         </Card>
                     );
                 })}
+            </div>
+
+            <div className="my-3 p-2">
+                <TableTaskInWorkspace tasks={workspace?.tasks} />
             </div>
         </div>
     );

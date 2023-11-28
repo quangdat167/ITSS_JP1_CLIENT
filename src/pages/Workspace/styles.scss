@@ -1,4 +1,6 @@
 .detail-workspace-wrapper {
-    .MuiLinearProgress-root {
+    .MuiTablePagination-displayedRows,
+    .MuiTablePagination-selectLabel {
+        margin-bottom: 0;
     }
 }
