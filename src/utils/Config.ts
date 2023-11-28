@@ -1,6 +1,8 @@
 class Config {
     static USERTASK_ROLE_ADMIN = 1;
     static USERTASK_ROLE_MEMBER = 2;
+    static USERWORKSPACE_ROLE_ADMIN = 1;
+    static USERWORKSPACE_ROLE_MEMBER = 2;
 
     static PRIORITY_HIGHEST = "highest";
     static PRIORITY_HIGH = "high";

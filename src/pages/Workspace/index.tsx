@@ -3,10 +3,35 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import PopupAddWorkspace from "components/popup/addWorkspacePopup";
 import WorkspaceItem from "components/workspace-item";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { IWorkspace } from "redux/reducer/workspace";
+import { RootState } from "redux/store";
+import { getWorkspaceByUserIdApi } from "service/workspace.service";
+
+export interface Workspace {
+    _id: string;
+    role: number;
+    userId?: string;
+    workspace: IWorkspace;
+}
 
 export const WorkspacePage = () => {
+    const userInfo = useSelector((state: RootState) => state.userInfoState);
+    const listWorkspace = useSelector((state: RootState) => state.workspaceState);
+    const [listWs, setListWs] = useState([] as Workspace[]);
     const [openPopupAddTask, setOpenPopupAddTask] = useState(false);
+
+    useEffect(() => {
+        const getWs = async () => {
+            let ws: Workspace[] = await getWorkspaceByUserIdApi({ userId: userInfo?._id });
+            if (ws.length > 0) {
+                // ws.forEach((item) => setListWs((ws) => [...ws, item.workspace]));
+                setListWs(ws);
+            }
+        };
+        userInfo?.email && getWs();
+    }, [userInfo?.email]);
     return (
         <div className="p-3">
             <div className="d-flex justify-content-between">
@@ -25,27 +50,18 @@ export const WorkspacePage = () => {
             </div>
 
             <Grid className="mt-2" container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <Grid item xs={3}>
-                    <WorkspaceItem />
-                </Grid>
-                <Grid item xs={3}>
-                    <WorkspaceItem />
-                </Grid>
-                <Grid item xs={3}>
-                    <WorkspaceItem />
-                </Grid>
-                <Grid item xs={3}>
-                    <WorkspaceItem />
-                </Grid>
-                <Grid item xs={3}>
-                    <WorkspaceItem />
-                </Grid>
-                <Grid item xs={3}>
-                    <WorkspaceItem />
-                </Grid>
-                <Grid item xs={3}>
-                    <WorkspaceItem />
-                </Grid>
+                {listWs.map((ws, index) => (
+                    <Grid
+                        key={index}
+                        item
+                        xs={3}
+                        onClick={() => {
+                            window.open(`/workspace/${ws.workspace._id}`, "_self");
+                        }}
+                    >
+                        <WorkspaceItem ws={ws.workspace} />
+                    </Grid>
+                ))}
             </Grid>
             <PopupAddWorkspace open={openPopupAddTask} setOpen={setOpenPopupAddTask} />
         </div>

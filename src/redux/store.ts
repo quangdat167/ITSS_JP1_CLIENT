@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { UserInfoReducer } from "./reducer/userinfo";
 import { EventReducer } from "./reducer/event";
+import { WorkspaceReducer } from "./reducer/workspace";
 
 const store = configureStore({
     reducer: {
         userInfoState: UserInfoReducer,
         eventState: EventReducer,
+        workspaceState: WorkspaceReducer,
     },
 });
 

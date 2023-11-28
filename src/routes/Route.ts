@@ -7,6 +7,7 @@ class RouteConfig {
     static CALENDAR = "/calendar";
     static MY_TASK = "/my-task";
     static WORKSPACE = "/workspace";
+    static WORKSPACE_DETAIL = "/workspace/:id";
 }
 
 export default RouteConfig;

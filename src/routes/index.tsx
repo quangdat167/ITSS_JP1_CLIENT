@@ -11,6 +11,7 @@ import { MyTaskPage } from "pages/My-Task";
 import { WorkspacePage } from "pages/Workspace";
 import CalendarPage from "pages/Calendar";
 import ForgotPasswordPage from "pages/ForgotPassword";
+import { WorkspaceDetailPage } from "pages/Workspace/detail";
 
 interface RouterConfig {
     path: string;
@@ -31,6 +32,7 @@ const privateRoutes: RouterConfig[] = [
     { path: RouteConfig.DASHBOARD, component: DashboardPage, layout: DefaultLayout },
     { path: RouteConfig.MY_TASK, component: MyTaskPage, layout: DefaultLayout },
     { path: RouteConfig.WORKSPACE, component: WorkspacePage, layout: DefaultLayout },
+    { path: RouteConfig.WORKSPACE_DETAIL, component: WorkspaceDetailPage, layout: DefaultLayout },
 ];
 
 export { publicRoutes, privateRoutes };

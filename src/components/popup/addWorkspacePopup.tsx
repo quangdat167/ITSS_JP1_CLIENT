@@ -4,18 +4,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
-import moment from "moment";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IEvent, addEvent, deleteEvent, editOneEvent } from "redux/reducer/event";
 import { RootState } from "redux/store";
-import {
-    createEventApi,
-    deleteEventByUserIdApi,
-    editEventByUserIdApi,
-} from "service/event.service";
-import Config from "utils/Config";
 import "./styles.scss";
+import { createWorkspaceApi } from "service/workspace.service";
+import { addWorkspace } from "redux/reducer/workspace";
 export default function PopupAddWorkspace({ open, setOpen }: { open: boolean; setOpen: Function }) {
     const dispatch = useDispatch();
     const userInfo = useSelector((state: RootState) => state.userInfoState);
@@ -46,12 +40,12 @@ export default function PopupAddWorkspace({ open, setOpen }: { open: boolean; se
                 description: des,
             };
 
-            // const newEvent = await createEventApi(params);
+            const newWs = await createWorkspaceApi(params);
 
-            // if (newEvent) {
-            //     dispatch(addEvent([newEvent]));
-            //     handleClose();
-            // }
+            if (newWs) {
+                dispatch(addWorkspace([newWs]));
+                handleClose();
+            }
         }
     };
 
