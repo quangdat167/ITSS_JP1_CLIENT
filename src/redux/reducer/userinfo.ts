@@ -9,7 +9,7 @@ export interface IUserInfo {
     password: string;
     createdAt?: Date;
     updatedAt?: Date;
-    role?: number;
+    role?: any;
 }
 
 export const initialState: IUserInfo = {} as IUserInfo;

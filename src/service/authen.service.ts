@@ -1,5 +1,5 @@
 import APIConfig from "utils/APIConfig";
-import { POST } from "utils/url";
+import { GET, POST } from "utils/url";
 
 export const loginApi = ({
     firstName,
@@ -42,6 +42,14 @@ export const searchUserByEmail = ({ email }: { email: string }) => {
         params: {
             email,
         },
+    }).then((data: any) => {
+        return data;
+    });
+};
+
+export const getAllUserEmailApi = () => {
+    return GET({
+        url: APIConfig.GET_ALL_USER_EMAIL,
     }).then((data: any) => {
         return data;
     });
