@@ -54,3 +54,12 @@ export const addUserToWorkspaceApi = (args: { wsId: string; memberId: string[] }
         return data;
     });
 };
+
+export const getAllTaskOfWsApi = (args: { wsId: string }) => {
+    return POST({
+        url: APIConfig.GET_ALL_TASK_OF_WORKSPACE,
+        params: args,
+    }).then((data: any) => {
+        return data;
+    });
+};

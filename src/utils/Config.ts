@@ -3,6 +3,8 @@ class Config {
     static USERTASK_ROLE_MEMBER = 2;
     static USERWORKSPACE_ROLE_ADMIN = 1;
     static USERWORKSPACE_ROLE_MEMBER = 2;
+    static USERPROJECT_ROLE_ADMIN = 1;
+    static USERPROJECT_ROLE_MEMBER = 2;
 
     static PRIORITY_HIGHEST = "highest";
     static PRIORITY_HIGH = "high";
@@ -17,6 +19,13 @@ class Config {
     static MODE_VIEW_EVENT = "view";
     static MODE_EDIT_EVENT = "edit";
     static MODE_CREATE_EVENT = "create";
+
+    static TASK_PROGRESS = {
+        TO_DO: "To do",
+        PROCESSING: "Processing",
+        REVIEW: "Review",
+        DONE: "Done",
+    };
 }
 
 export default Config;

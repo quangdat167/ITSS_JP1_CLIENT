@@ -16,3 +16,20 @@ export const createProjectApi = (args: {
         return data;
     });
 };
+
+export const getAllTaskOfProjectApi = (args: { _id: string }) => {
+    return POST({
+        url: APIConfig.GET_ALL_TASK_OF_PROJECT,
+        params: args,
+    }).then((data: any) => {
+        return data;
+    });
+};
+export const getAllUserOfProjectApi = (args: { _id: string }) => {
+    return POST({
+        url: APIConfig.GET_ALL_USER_OF_PROJECT,
+        params: args,
+    }).then((data: any) => {
+        return data;
+    });
+};
