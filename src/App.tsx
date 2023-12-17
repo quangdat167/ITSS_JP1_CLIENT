@@ -19,8 +19,6 @@ function App() {
                 const userInfo = await getUserInfoApi({ email: user?.email });
                 if (userInfo?.email) {
                     dispatch(getUserInfoReducer(userInfo));
-                } else {
-                    alert("Khong co data trong db");
                 }
             }
         });

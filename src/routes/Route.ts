@@ -1,6 +1,6 @@
 class RouteConfig {
-    static HOME = "/";
-    static SIGN_IN = "/sign-in";
+    static HOME = "/home";
+    static SIGN_IN = "/";
     static SIGN_UP = "/sign-up";
     static FORGOT_PASSWORD = "/forgot-password";
     static DASHBOARD = "/dashboard";

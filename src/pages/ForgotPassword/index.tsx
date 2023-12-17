@@ -117,7 +117,7 @@ function ForgotPasswordPage() {
             </Form>
         </div>
     ) : (
-        <Navigate to={RouteConfig.HOME} />
+        <Navigate to={RouteConfig.DASHBOARD} />
     );
 }
 

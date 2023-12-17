@@ -7,6 +7,7 @@ export const createEventApi = (args: {
     description: string;
     startTime: Date;
     endTime: Date;
+    wsId?: string;
 }) => {
     return POST({
         url: APIConfig.CREATE_EVENT,
@@ -31,6 +32,7 @@ export const editEventByUserIdApi = (args: {
     description: string;
     startTime: Date;
     endTime: Date;
+    wsId?: string;
 }) => {
     return POST({
         url: APIConfig.EDIT_EVENT,
@@ -43,6 +45,15 @@ export const editEventByUserIdApi = (args: {
 export const deleteEventByUserIdApi = (args: { _id: string }) => {
     return POST({
         url: APIConfig.DELETING_EVENT,
+        params: args,
+    }).then((data: any) => {
+        return data;
+    });
+};
+
+export const getEventByWsApi = (args: { userId: string; selectedWs?: string[] }) => {
+    return POST({
+        url: APIConfig.GET_EVENT_BY_WS,
         params: args,
     }).then((data: any) => {
         return data;

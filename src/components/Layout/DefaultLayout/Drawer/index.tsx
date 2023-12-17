@@ -17,11 +17,11 @@ import { useEffect, useState } from "react";
 const drawerWidth = 240;
 
 const listItem = [
-    {
-        icon: <HomeIcon />,
-        text: "Home",
-        route: RouteConfig.HOME,
-    },
+    // {
+    //     icon: <HomeIcon />,
+    //     text: "Home",
+    //     route: RouteConfig.HOME,
+    // },
     {
         icon: <DashboardIcon />,
         text: "Dashboard",

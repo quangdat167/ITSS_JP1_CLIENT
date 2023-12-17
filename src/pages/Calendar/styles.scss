@@ -210,6 +210,10 @@
         display: flex;
         flex-direction: column;
 
+        legend {
+            width: 70px;
+        }
+
         .react-calendar {
             border: none;
             font-size: 14px;
@@ -287,7 +291,7 @@
             .list-event {
                 flex-grow: 1;
                 overflow-y: scroll;
-                max-height: calc(100vh - 480px);
+                max-height: calc(100vh - 530px);
             }
 
             .add-event {

@@ -159,16 +159,20 @@ function ProjectDetail({
                         </ul>
                     </div>
 
-                    <div>
-                        Member:
-                        <ul>
-                            {memberProject.map((admin, index) => (
-                                <li>
-                                    {admin.userInfo.firstName} {admin.userInfo.lastName}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    {memberProject.length ? (
+                        <div>
+                            Member:
+                            <ul>
+                                {memberProject.map((admin, index) => (
+                                    <li>
+                                        {admin.userInfo.firstName} {admin.userInfo.lastName}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ) : (
+                        <></>
+                    )}
                 </div>
             </div>
 

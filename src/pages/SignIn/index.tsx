@@ -163,7 +163,7 @@ function SignIn() {
             </Form>
         </div>
     ) : (
-        <Navigate to={RouteConfig.HOME} />
+        <Navigate to={RouteConfig.DASHBOARD} />
     );
 }
 

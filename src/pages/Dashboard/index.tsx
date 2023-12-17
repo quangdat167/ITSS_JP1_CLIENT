@@ -185,103 +185,125 @@ export const DashboardPage = () => {
                         </div>
                         <div className="d-flex gap-5 align-items-center">
                             <PieChart data={data} style={{ width: 250 }} />
-                            <div>
-                                <div className="mb-2 d-flex gap-2 align-items-center">
-                                    <div
-                                        style={{ width: 30, height: 20, backgroundColor: "green" }}
-                                    ></div>
-                                    <div>Completed</div>
+                            {allTask.length ? (
+                                <div>
+                                    <div className="mb-2 d-flex gap-2 align-items-center">
+                                        <div
+                                            style={{
+                                                width: 30,
+                                                height: 20,
+                                                backgroundColor: "green",
+                                            }}
+                                        ></div>
+                                        <div>Completed</div>
+                                    </div>
+                                    <div className="mb-2 d-flex gap-2 align-items-center">
+                                        <div
+                                            style={{
+                                                width: 30,
+                                                height: 20,
+                                                backgroundColor: "blue",
+                                            }}
+                                        ></div>
+                                        <div>Inprogress</div>
+                                    </div>
+                                    <div className="d-flex gap-2 align-items-center">
+                                        <div
+                                            style={{
+                                                width: 30,
+                                                height: 20,
+                                                backgroundColor: "red",
+                                            }}
+                                        ></div>
+                                        <div>Overdue</div>
+                                    </div>
                                 </div>
-                                <div className="mb-2 d-flex gap-2 align-items-center">
-                                    <div
-                                        style={{ width: 30, height: 20, backgroundColor: "blue" }}
-                                    ></div>
-                                    <div>Inprogress</div>
-                                </div>
-                                <div className="d-flex gap-2 align-items-center">
-                                    <div
-                                        style={{ width: 30, height: 20, backgroundColor: "red" }}
-                                    ></div>
-                                    <div>Overdue</div>
-                                </div>
-                            </div>
+                            ) : (
+                                <></>
+                            )}
                         </div>
                     </div>
                 </div>
 
-                <div className="my-5 ">
-                    <div className="fs-6 mb-3">Projects</div>
-                    <div className="p-3 d-flex gap-3 overflow-x-scroll">
-                        {allProjects.map((project, index) => {
-                            const currentDate = moment();
-                            const deadlineDate = moment(project.deadline);
-                            const daysLeft = deadlineDate.diff(currentDate, "days");
+                {allProjects.length ? (
+                    <div className="my-5 ">
+                        <div className="fs-6 mb-3">Projects</div>
+                        <div className="p-3 d-flex gap-3 overflow-x-scroll">
+                            {allProjects.map((project, index) => {
+                                const currentDate = moment();
+                                const deadlineDate = moment(project.deadline);
+                                const daysLeft = deadlineDate.diff(currentDate, "days");
 
-                            let listTaskId: any = [];
-                            let taskOfProject: any = [];
-                            let taskDoneOfProject: any = [];
-                            allTaskInfo.forEach((task) => {
-                                if (listTaskId.includes(task._id)) {
-                                } else {
-                                    listTaskId.push(task._id);
-                                    if (task.projectId === project._id) {
-                                        taskOfProject.push(task);
-                                        if (task.status === Config.TASK_PROGRESS.DONE) {
-                                            taskDoneOfProject.push(task);
+                                let listTaskId: any = [];
+                                let taskOfProject: any = [];
+                                let taskDoneOfProject: any = [];
+                                allTaskInfo.forEach((task) => {
+                                    if (listTaskId.includes(task._id)) {
+                                    } else {
+                                        listTaskId.push(task._id);
+                                        if (task.projectId === project._id) {
+                                            taskOfProject.push(task);
+                                            if (task.status === Config.TASK_PROGRESS.DONE) {
+                                                taskDoneOfProject.push(task);
+                                            }
                                         }
                                     }
-                                }
-                            });
+                                });
 
-                            const percentTaskDone =
-                                (taskDoneOfProject.length / taskOfProject.length) * 100;
+                                const percentTaskDone =
+                                    (taskDoneOfProject.length / taskOfProject.length) * 100;
 
-                            return (
-                                <Card sx={{ minWidth: 200 }} variant="outlined">
-                                    <CardContent>
-                                        <Typography
-                                            sx={{ fontSize: 16, fontWeight: 600 }}
-                                            gutterBottom
-                                        >
-                                            {project.name}
-                                        </Typography>
+                                return (
+                                    <Card sx={{ minWidth: 200 }} variant="outlined">
+                                        <CardContent>
+                                            <Typography
+                                                sx={{ fontSize: 16, fontWeight: 600 }}
+                                                gutterBottom
+                                            >
+                                                {project.name}
+                                            </Typography>
 
-                                        <Typography
-                                            sx={{ fontSize: 16, fontWeight: 500 }}
-                                            gutterBottom
-                                        >
-                                            Workspace: {project.workspaceName}
-                                        </Typography>
+                                            <Typography
+                                                sx={{ fontSize: 16, fontWeight: 500 }}
+                                                gutterBottom
+                                            >
+                                                Workspace: {project.workspaceName}
+                                            </Typography>
 
-                                        <div className="mt-2 position-relative">
-                                            <div style={{ marginBottom: -6 }}>
-                                                {taskOfProject.length > 0
-                                                    ? `${taskOfProject.length} Task`
-                                                    : "no task"}
+                                            <div className="mt-2 position-relative">
+                                                <div style={{ marginBottom: -6 }}>
+                                                    {taskOfProject.length > 0
+                                                        ? `${taskOfProject.length} Task`
+                                                        : "no task"}
+                                                </div>
+                                                <Box sx={{ width: "100%" }}>
+                                                    <LinearProgressWithLabel
+                                                        color="error"
+                                                        value={
+                                                            percentTaskDone > 0
+                                                                ? percentTaskDone
+                                                                : 0
+                                                        }
+                                                    />
+                                                </Box>
                                             </div>
-                                            <Box sx={{ width: "100%" }}>
-                                                <LinearProgressWithLabel
-                                                    color="error"
-                                                    value={
-                                                        percentTaskDone > 0 ? percentTaskDone : 0
-                                                    }
-                                                />
-                                            </Box>
-                                        </div>
 
-                                        <Typography
-                                            className="mt-3"
-                                            variant="body2"
-                                            color="text.secondary"
-                                        >
-                                            {daysLeft > 0 ? `${daysLeft} day lefts` : "Overdue"}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            );
-                        })}
+                                            <Typography
+                                                className="mt-3"
+                                                variant="body2"
+                                                color="text.secondary"
+                                            >
+                                                {daysLeft > 0 ? `${daysLeft} day lefts` : "Overdue"}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <></>
+                )}
             </div>
         </>
     );

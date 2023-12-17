@@ -197,6 +197,7 @@ function SignUp() {
                         email,
                     });
                     dispatch(loginReducer(user));
+                    window.location.reload();
                 })
                 .catch((error) => {
                     alert("Sign up failed");
@@ -316,7 +317,7 @@ function SignUp() {
             </Form>
         </div>
     ) : (
-        <Navigate to={RouteConfig.HOME} />
+        <Navigate to={RouteConfig.DASHBOARD} />
     );
 }
 

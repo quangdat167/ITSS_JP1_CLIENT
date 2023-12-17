@@ -18,11 +18,11 @@ function Header() {
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 2000 }}>
             <nav className="navbar navbar-expand" style={{ backgroundColor: "var(--primary)" }}>
                 <div className={cx("container-header", "container flex-nowrap")}>
-                    <Link className="navbar-brand text-light" to={RouteConfig.HOME}>
+                    <Link className="navbar-brand text-light" to={RouteConfig.DASHBOARD}>
                         Analysism
                     </Link>
 
-                    <form className="d-flex" role="search">
+                    {/* <form className="d-flex" role="search">
                         <input
                             className="form-control me-1"
                             type="search"
@@ -32,7 +32,7 @@ function Header() {
                         <button className="btn btn-outline-light d-none d-sm-block" type="submit">
                             <FontAwesomeIcon className="fs-5" icon={faMagnifyingGlass} />
                         </button>
-                    </form>
+                    </form> */}
 
                     <div className="" id="">
                         <ul className="navbar-nav ms-auto align-items-center">

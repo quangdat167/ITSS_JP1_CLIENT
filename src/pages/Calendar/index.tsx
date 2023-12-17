@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "redux/store";
 import { getAllEventByUserIdApi } from "service/event.service";
 import { IEvent, addEvent } from "redux/reducer/event";
+import FilterWorkspace from "./FilterWorkspace";
 
 function CalendarPage() {
     const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function CalendarPage() {
                 setCurrentMonth={setCurrentMonth}
             />
             <div className="calendar-right">
+                <FilterWorkspace />
                 <div className="react-calendar">
                     <Calendar
                         onClickDay={(e) => {

@@ -16,6 +16,14 @@ import {
 } from "service/event.service";
 import Config from "utils/Config";
 import "./styles.scss";
+
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import { getWorkspaceByUserIdApi } from "service/workspace.service";
+import { Workspace } from "pages/Workspace";
+import { IWorkspace } from "redux/reducer/workspace";
 export default function PopupAddEvent({
     open,
     setOpen,
@@ -38,12 +46,15 @@ export default function PopupAddEvent({
     const [des, setDes] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
+    const [wsId, setWsId] = useState("");
+    const [listWs, setListWs] = useState([] as IWorkspace[]);
 
     const handleClose = () => {
         setName("");
         setDes("");
         setStartTime("");
         setEndTime("");
+        setWsId("");
         setOpen(false);
     };
 
@@ -51,6 +62,16 @@ export default function PopupAddEvent({
         setStartTime(moment(selectedDay).format("YYYY-MM-DDTHH:mm"));
         setEndTime(moment(selectedDay).format("YYYY-MM-DDTHH:mm"));
     }, [selectedDay]);
+
+    useEffect(() => {
+        const getWs = async () => {
+            let ws: Workspace[] = await getWorkspaceByUserIdApi({ userId: userInfo?._id });
+            if (ws.length > 0) {
+                setListWs(ws.map((w) => w.workspace));
+            }
+        };
+        userInfo?.email && getWs();
+    }, [userInfo?.email]);
 
     const isValidField = () => {
         if (name.length > 0 && startTime.length > 0 && endTime.length > 0) {
@@ -84,20 +105,6 @@ export default function PopupAddEvent({
     const handleDeadlineChange = (e: any) => {
         const newDeadline = e.target.value;
         setEndTime(newDeadline);
-
-        // if (startTime.length > 0) {
-        //     const deadlineDate = new Date(newDeadline);
-        //     const startTimeDate = new Date(startTime);
-
-        //     if (
-        //         deadlineDate.toDateString() === startTimeDate.toDateString() &&
-        //         deadlineDate >= startTimeDate
-        //     ) {
-        //         setEndTime(newDeadline);
-        //     } else {
-        //         alert("End time must be on the same day and after Start time");
-        //     }
-        // }
     };
 
     const handleAddEvent = async () => {
@@ -108,6 +115,7 @@ export default function PopupAddEvent({
                 description: des,
                 startTime: new Date(startTime),
                 endTime: new Date(endTime),
+                wsId: wsId ? wsId : undefined,
             };
 
             const newEvent = await createEventApi(params);
@@ -126,6 +134,10 @@ export default function PopupAddEvent({
             selectedEvent.description && setDes(selectedEvent.description);
             setStartTime(moment(selectedEvent?.startTime).format("YYYY-MM-DDTHH:mm"));
             setEndTime(moment(selectedEvent?.endTime).format("YYYY-MM-DDTHH:mm"));
+            const idWs = listWs.find((ws) => ws._id === selectedEvent?.wsId)?._id;
+            if (idWs) {
+                setWsId(idWs);
+            }
         }
     };
 
@@ -137,7 +149,11 @@ export default function PopupAddEvent({
                 description: des,
                 startTime: new Date(startTime),
                 endTime: new Date(endTime),
+                wsId: wsId ? wsId : undefined,
             };
+            if (wsId !== selectedEvent.wsId) {
+                window.location.reload();
+            }
             await editEventByUserIdApi(params);
             dispatch(editOneEvent(params));
             handleClose();
@@ -257,6 +273,39 @@ export default function PopupAddEvent({
                             />
                         </div>
                     </div>
+
+                    <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                        <InputLabel id="demo-simple-select-standard-label">Workspace</InputLabel>
+                        <Select
+                            inputProps={
+                                mode === Config.MODE_VIEW
+                                    ? {
+                                          readOnly: true,
+                                      }
+                                    : {}
+                            }
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={
+                                mode === Config.MODE_VIEW
+                                    ? listWs.find((ws) => ws._id === selectedEvent?.wsId)?._id
+                                    : wsId
+                            }
+                            onChange={(e) => setWsId(e.target.value)}
+                            label="Workspace"
+                        >
+                            {mode !== Config.MODE_EDIT && (
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                            )}
+                            {listWs.map((ws, id) => (
+                                <MenuItem key={id} value={ws._id}>
+                                    {ws.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </DialogContent>
 
                 <DialogActions>

@@ -9,6 +9,7 @@ export interface IEvent {
     endTime: Date;
     createdAt?: Date;
     updatedAt?: Date;
+    wsId?: string;
 }
 
 export const initialState: IEvent[] = [];
@@ -18,7 +19,7 @@ export const EventSlice = createSlice({
     initialState: initialState,
     reducers: {
         addEvent: (state, action) => {
-            return [...state, ...action.payload];
+            return [...action.payload];
         },
         editOneEvent: (state, action) => {
             let newState = [...state];
@@ -36,9 +37,15 @@ export const EventSlice = createSlice({
                 return newState;
             }
         },
+        updateEvent: (state, action) => {
+            console.log("actionpayload: ", action.payload);
+
+            const newState = [...action.payload];
+            return newState;
+        },
     },
 });
 
-export const { addEvent, editOneEvent, deleteEvent } = EventSlice.actions;
+export const { addEvent, editOneEvent, deleteEvent, updateEvent } = EventSlice.actions;
 
 export const EventReducer = EventSlice.reducer;
