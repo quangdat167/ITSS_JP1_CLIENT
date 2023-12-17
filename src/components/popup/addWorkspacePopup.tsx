@@ -43,7 +43,8 @@ export default function PopupAddWorkspace({ open, setOpen }: { open: boolean; se
             const newWs = await createWorkspaceApi(params);
 
             if (newWs) {
-                dispatch(addWorkspace([newWs]));
+                // dispatch(addWorkspace([newWs]));
+                window.location.reload();
                 handleClose();
             }
         }

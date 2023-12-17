@@ -26,11 +26,19 @@ import PopupAddProject from "components/popup/addProjectPopup";
 import PopupAddUserToWorkspace from "components/popup/addUserToWorkspacePopup";
 import TableUserInWorkspace from "components/table-user-in-workspace";
 import ProjectDetail from "pages/Project-Detail";
+import Config from "utils/Config";
 export interface IUserWorkspace {
     _id: string;
     role: number;
     userId: string;
     wsId: string;
+}
+
+export interface IUserTask {
+    _id: string;
+    role: number;
+    userId: string;
+    taskId: string;
 }
 
 export interface IProject {
@@ -59,6 +67,9 @@ export interface ITask {
     // userId?: string[];
     createdAt?: Date;
     updatedAt?: Date;
+    projectName?: string;
+    workspaceName?: string;
+    userTask?: IUserTask;
 }
 
 export interface ITaskOfWorkspace extends ITask {
@@ -149,19 +160,21 @@ export const WorkspaceDetailPage = () => {
 
                     <div className="my-3 d-flex justify-content-between">
                         <AvatarGroup total={workspace.members?.length + 1}>
-                            {workspace.member?.map((mem, index) => (
-                                <Avatar
-                                    alt={mem.lastName + " " + mem.firstName}
-                                    src="/"
-                                    onClick={() => setOpenPopupViewUser(true)}
-                                />
-                            ))}
                             <Avatar
                                 sx={{ bgcolor: "var(--primary)", cursor: "pointer" }}
                                 onClick={() => setOpenPopupAddUser(true)}
                             >
                                 <AddIcon />
                             </Avatar>
+                            {workspace.member?.map((mem, index) => (
+                                <>
+                                    <Avatar
+                                        alt={mem.lastName + " " + mem.firstName}
+                                        src="/"
+                                        onClick={() => setOpenPopupViewUser(true)}
+                                    />
+                                </>
+                            ))}
                         </AvatarGroup>
                         <div>
                             Code: <b>{workspace.code}</b>
@@ -191,6 +204,26 @@ export const WorkspaceDetailPage = () => {
                             const currentDate = moment();
                             const deadlineDate = moment(project.deadline);
                             const daysLeft = deadlineDate.diff(currentDate, "days");
+
+                            let listTaskId: any = [];
+                            let taskOfProject: any = [];
+                            let taskDoneOfProject: any = [];
+                            allTaskOfWorkspace.forEach((task) => {
+                                if (listTaskId.includes(task._id)) {
+                                } else {
+                                    listTaskId.push(task._id);
+                                    if (task.projectId === project._id) {
+                                        taskOfProject.push(task);
+                                        if (task.status === Config.TASK_PROGRESS.DONE) {
+                                            taskDoneOfProject.push(task);
+                                        }
+                                    }
+                                }
+                            });
+
+                            const percentTaskDone =
+                                (taskDoneOfProject.length / taskOfProject.length) * 100;
+
                             return (
                                 <Card
                                     sx={{ minWidth: 200 }}
@@ -208,9 +241,18 @@ export const WorkspaceDetailPage = () => {
                                         </Typography>
 
                                         <div className="mt-2 position-relative">
-                                            <div style={{ marginBottom: -6 }}>10 tasks</div>
+                                            <div style={{ marginBottom: -6 }}>
+                                                {taskOfProject.length > 0
+                                                    ? `${taskOfProject.length} Task`
+                                                    : "no task"}
+                                            </div>
                                             <Box sx={{ width: "100%" }}>
-                                                <LinearProgressWithLabel color="error" value={50} />
+                                                <LinearProgressWithLabel
+                                                    color="error"
+                                                    value={
+                                                        percentTaskDone > 0 ? percentTaskDone : 0
+                                                    }
+                                                />
                                             </Box>
                                         </div>
 
@@ -219,7 +261,7 @@ export const WorkspaceDetailPage = () => {
                                             variant="body2"
                                             color="text.secondary"
                                         >
-                                            {daysLeft} day lefts
+                                            {daysLeft > 0 ? `${daysLeft} day lefts` : "Out of date"}
                                         </Typography>
                                     </CardContent>
                                 </Card>
@@ -253,6 +295,7 @@ export const WorkspaceDetailPage = () => {
             ) : (
                 <>
                     <ProjectDetail
+                        currentWs={workspace}
                         currentProject={currentProject}
                         setOpenLayoutProject={setOpenLayoutProject}
                     />

@@ -253,8 +253,8 @@
                     height: 38px;
                 }
 
-                .react-calendar__tile--active {
-                    background: #afeeee;
+                &.react-calendar__tile--active {
+                    background: #dcdcdc;
                     color: inherit;
                 }
             }

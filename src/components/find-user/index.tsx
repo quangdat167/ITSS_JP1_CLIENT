@@ -1,10 +1,7 @@
-import * as React from "react";
+import Autocomplete from "@mui/material/Autocomplete";
 import Chip from "@mui/material/Chip";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
-import { getAllUserEmailApi } from "service/authen.service";
-import { useSelector } from "react-redux";
-import { RootState } from "redux/store";
+import * as React from "react";
 
 export default function FindUserInput({
     value,
@@ -19,7 +16,6 @@ export default function FindUserInput({
     allUsers?: any;
     disabledUsers: any;
 }) {
-    const userInfo = useSelector((state: RootState) => state.userInfoState);
     const [fixedOptions, setFixedOptions] = React.useState<any>([]);
     const userEmail = [...disabledUsers];
 

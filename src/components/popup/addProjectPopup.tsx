@@ -4,14 +4,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import FindUserInput from "components/find-user";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "redux/store";
-import "./styles.scss";
-import { createWorkspaceApi } from "service/workspace.service";
-import { addWorkspace } from "redux/reducer/workspace";
-import FindUserInput from "components/find-user";
 import { createProjectApi } from "service/project.service";
+import "./styles.scss";
 export default function PopupAddProject({
     open,
     setOpen,

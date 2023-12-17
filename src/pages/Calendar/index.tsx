@@ -12,6 +12,7 @@ function CalendarPage() {
     const userInfo = useSelector((state: RootState) => state?.userInfoState);
     const [showDetails, setShowDetails] = useState(false);
     const [data, setData] = useState("");
+    const [currentMonth, setCurrentMonth] = useState(new Date());
 
     const showDetailsHandle = (dayStr: string) => {
         setData(dayStr);
@@ -33,9 +34,19 @@ function CalendarPage() {
 
     return (
         <div className="calendar-wrapper">
-            <MainCalendar showDetailsHandle={showDetailsHandle} />
+            <MainCalendar
+                showDetailsHandle={showDetailsHandle}
+                currentMonth={currentMonth}
+                setCurrentMonth={setCurrentMonth}
+            />
             <div className="calendar-right">
-                <Calendar />
+                <div className="react-calendar">
+                    <Calendar
+                        onClickDay={(e) => {
+                            setCurrentMonth(e);
+                        }}
+                    />
+                </div>
                 <ListEvent />
             </div>
         </div>

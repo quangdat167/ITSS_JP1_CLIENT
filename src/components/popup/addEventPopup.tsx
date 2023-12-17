@@ -19,7 +19,7 @@ import "./styles.scss";
 export default function PopupAddEvent({
     open,
     setOpen,
-    mode = Config.MODE_CREATE_EVENT,
+    mode = Config.MODE_CREATE,
     setMode,
     selectedEvent,
     selectedDay,
@@ -120,7 +120,7 @@ export default function PopupAddEvent({
     };
 
     const handleEditEvent = () => {
-        setMode(Config.MODE_EDIT_EVENT);
+        setMode(Config.MODE_EDIT);
         if (selectedEvent) {
             setName(selectedEvent.name);
             selectedEvent.description && setDes(selectedEvent.description);
@@ -163,15 +163,15 @@ export default function PopupAddEvent({
                 maxWidth="sm"
                 fullWidth={true}
             >
-                {mode === Config.MODE_CREATE_EVENT && <DialogTitle>CREATE NEW EVENT</DialogTitle>}
-                {mode === Config.MODE_VIEW_EVENT && <DialogTitle>EVENT DETAIL</DialogTitle>}
-                {mode === Config.MODE_EDIT_EVENT && <DialogTitle>EDIT EVENT</DialogTitle>}
+                {mode === Config.MODE_CREATE && <DialogTitle>CREATE NEW EVENT</DialogTitle>}
+                {mode === Config.MODE_VIEW && <DialogTitle>EVENT DETAIL</DialogTitle>}
+                {mode === Config.MODE_EDIT && <DialogTitle>EDIT EVENT</DialogTitle>}
 
                 <DialogContent className="content-wrapper">
                     <TextField
-                        // disabled={mode === Config.MODE_VIEW_EVENT}
+                        // disabled={mode === Config.MODE_VIEW}
                         InputProps={
-                            mode === Config.MODE_VIEW_EVENT
+                            mode === Config.MODE_VIEW
                                 ? {
                                       readOnly: true,
                                   }
@@ -184,12 +184,12 @@ export default function PopupAddEvent({
                         type="text"
                         fullWidth
                         variant="standard"
-                        value={mode === Config.MODE_VIEW_EVENT ? selectedEvent?.name : name}
+                        value={mode === Config.MODE_VIEW ? selectedEvent?.name : name}
                         onChange={(e) => setName(e.target.value)}
                     />
                     <TextField
                         InputProps={
-                            mode === Config.MODE_VIEW_EVENT
+                            mode === Config.MODE_VIEW
                                 ? {
                                       readOnly: true,
                                   }
@@ -202,7 +202,7 @@ export default function PopupAddEvent({
                         type="text"
                         fullWidth
                         variant="standard"
-                        value={mode === Config.MODE_VIEW_EVENT ? selectedEvent?.description : des}
+                        value={mode === Config.MODE_VIEW ? selectedEvent?.description : des}
                         onChange={(e) => setDes(e.target.value)}
                     />
 
@@ -211,7 +211,7 @@ export default function PopupAddEvent({
                             <div className="lable">Start time:</div>
                             <TextField
                                 InputProps={
-                                    mode === Config.MODE_VIEW_EVENT
+                                    mode === Config.MODE_VIEW
                                         ? {
                                               readOnly: true,
                                           }
@@ -223,7 +223,7 @@ export default function PopupAddEvent({
                                 type="datetime-local"
                                 variant="standard"
                                 value={
-                                    mode === Config.MODE_VIEW_EVENT
+                                    mode === Config.MODE_VIEW
                                         ? moment(selectedEvent?.startTime).format(
                                               "YYYY-MM-DDTHH:mm",
                                           )
@@ -237,19 +237,19 @@ export default function PopupAddEvent({
                             <div className="lable">End time: </div>
                             <TextField
                                 InputProps={
-                                    mode === Config.MODE_VIEW_EVENT
+                                    mode === Config.MODE_VIEW
                                         ? {
                                               readOnly: true,
                                           }
                                         : {}
                                 }
-                                disabled={mode !== Config.MODE_VIEW_EVENT && startTime.length === 0}
+                                disabled={mode !== Config.MODE_VIEW && startTime.length === 0}
                                 margin="dense"
                                 id="startTime"
                                 type="datetime-local"
                                 variant="standard"
                                 value={
-                                    mode === Config.MODE_VIEW_EVENT
+                                    mode === Config.MODE_VIEW
                                         ? moment(selectedEvent?.endTime).format("YYYY-MM-DDTHH:mm")
                                         : endTime
                                 }
@@ -260,23 +260,23 @@ export default function PopupAddEvent({
                 </DialogContent>
 
                 <DialogActions>
-                    {mode === Config.MODE_VIEW_EVENT && (
+                    {mode === Config.MODE_VIEW && (
                         <Button onClick={handleDeleteEvent} color="error" variant="contained">
                             Delete
                         </Button>
                     )}
                     <Button onClick={handleClose}>Cancel</Button>
-                    {mode === Config.MODE_CREATE_EVENT && (
+                    {mode === Config.MODE_CREATE && (
                         <Button onClick={handleAddEvent} variant="contained">
                             Create
                         </Button>
                     )}
-                    {mode === Config.MODE_VIEW_EVENT && (
+                    {mode === Config.MODE_VIEW && (
                         <Button onClick={handleEditEvent} variant="contained">
                             Edit
                         </Button>
                     )}
-                    {mode === Config.MODE_EDIT_EVENT && (
+                    {mode === Config.MODE_EDIT && (
                         <Button onClick={handleSaveEvent} variant="contained">
                             Save
                         </Button>

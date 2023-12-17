@@ -68,6 +68,9 @@ function DrawerLeft() {
                     height: 0,
                     minHeight: 0,
                 },
+                // "& .Mui-selected": {
+                //     backgroundColor: "#2f6dbf",
+                // },
             }}
             variant="permanent"
             anchor="left"

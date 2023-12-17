@@ -23,12 +23,20 @@ import Config from "utils/Config";
 import PopupAddEvent from "../../components/popup/addEventPopup";
 import "./styles.scss";
 
-export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Function }) => {
+export const MainCalendar = ({
+    showDetailsHandle,
+    currentMonth,
+    setCurrentMonth,
+}: {
+    showDetailsHandle: Function;
+    currentMonth: Date;
+    setCurrentMonth: Function;
+}) => {
     const listEvent = useSelector((state: RootState) => state.eventState);
     const [openPopupAddEvent, setOpenPopupAddEvent] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState({} as IEvent);
     const [mode, setMode] = useState("");
-    const [currentMonth, setCurrentMonth] = useState(new Date());
+    // const [currentMonth, setCurrentMonth] = useState(new Date());
     const [currentWeek, setCurrentWeek] = useState(getWeek(currentMonth));
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedDay, setSelectedDay] = useState(new Date());
@@ -59,6 +67,9 @@ export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Functio
         setSelectedDate(day);
         showDetailsHandle(dayStr);
     };
+
+    console.log("currentMonth: ", currentMonth);
+    console.log("currentWeek: ", currentWeek);
 
     const renderHeader = () => {
         const dateFormat = "MMMM yyyy";
@@ -116,7 +127,7 @@ export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Functio
                         key={i}
                         onClick={() => {
                             setOpenPopupAddEvent(true);
-                            setMode(Config.MODE_CREATE_EVENT);
+                            setMode(Config.MODE_CREATE);
                             setSelectedDay(cloneDay);
                             // const dayStr = format(cloneDay, "ccc dd MMM yy");
                             // onDateClickHandle(cloneDay, dayStr);
@@ -137,7 +148,7 @@ export const MainCalendar = ({ showDetailsHandle }: { showDetailsHandle: Functio
                                                     e.stopPropagation();
                                                     setOpenPopupAddEvent(true);
                                                     setSelectedEvent(event);
-                                                    setMode(Config.MODE_VIEW_EVENT);
+                                                    setMode(Config.MODE_VIEW);
                                                 }}
                                             >
                                                 <ListItemText primary={event.name} />

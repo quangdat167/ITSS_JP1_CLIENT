@@ -7,6 +7,12 @@ import TableTask from "components/table-task";
 import Config from "utils/Config";
 import moment from "moment";
 import { IUserInfo } from "redux/reducer/userinfo";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import PopupAddTask from "components/popup/addTaskPopup";
+import { IWorkspace } from "redux/reducer/workspace";
+import { RootState } from "redux/store";
+import { useSelector } from "react-redux";
 
 export interface IUserOfProject {
     _id: string;
@@ -19,19 +25,27 @@ export interface IUserOfProject {
 function ProjectDetail({
     currentProject,
     setOpenLayoutProject,
+    currentWs,
 }: {
     currentProject: IProject;
     setOpenLayoutProject: Function;
+    currentWs: IWorkspace;
 }) {
+    const userInfo = useSelector((state: RootState) => state.userInfoState);
     const [allTask, setAllTask] = useState([] as ITask[]);
     const [allUser, setAllUser] = useState([] as IUserOfProject[]);
     const [adminProject, setAdminProject] = useState([] as IUserOfProject[]);
     const [memberProject, setMemberProject] = useState([] as IUserOfProject[]);
     const [tasksNotDone, setTaskNotDone] = useState([] as ITask[]);
     const [tasksDone, setTaskDone] = useState([] as ITask[]);
+    const [openPoppupAddTask, setOpenPoppupAddTask] = useState(false);
+    const [mode, setMode] = useState("");
     useEffect(() => {
         const getAllTask = async () => {
-            const alltaskApi = await getAllTaskOfProjectApi({ _id: currentProject._id });
+            const alltaskApi = await getAllTaskOfProjectApi({
+                _id: currentProject._id,
+                userId: userInfo._id,
+            });
 
             if (alltaskApi.length) {
                 setAllTask(alltaskApi);
@@ -70,7 +84,22 @@ function ProjectDetail({
                         setOpenLayoutProject(false);
                     }}
                 />
-                <div className="fs-3 fw-medium">{currentProject.name}</div>
+
+                <div className="w-100 d-flex justify-content-between  align-items-center">
+                    <div className="fs-3 fw-medium">{currentProject.name}</div>
+                    <Button
+                        size="small"
+                        variant="outlined"
+                        color="error"
+                        startIcon={<AddIcon />}
+                        onClick={() => {
+                            setOpenPoppupAddTask(true);
+                            setMode(Config.MODE_CREATE);
+                        }}
+                    >
+                        Create new task
+                    </Button>
+                </div>
             </div>
             <div className="d-flex gap-2 mt-3">
                 <div className="left-side" style={{ width: "70%" }}>
@@ -83,6 +112,7 @@ function ProjectDetail({
                                         (t) => t.status !== Config.TASK_PROGRESS.DONE,
                                     )}
                                     projectName={currentProject.name}
+                                    workspaceName={currentWs.name}
                                 />
                             </>
                         ) : (
@@ -100,6 +130,7 @@ function ProjectDetail({
                                         (t) => t.status === Config.TASK_PROGRESS.DONE,
                                     )}
                                     projectName={currentProject.name}
+                                    workspaceName={currentWs.name}
                                 />
                             </div>
                         ) : (
@@ -112,6 +143,7 @@ function ProjectDetail({
 
                 <div className="right-side border border-light-subtle p-2" style={{ width: "30%" }}>
                     <div className="fs-3 fw-medium">{currentProject.name}</div>
+
                     <div>Description: {currentProject.description}</div>
                     <div>
                         Deadline: {moment(currentProject.deadline).format("YYYY-MM-DD HH:mm:ss")}
@@ -139,6 +171,18 @@ function ProjectDetail({
                     </div>
                 </div>
             </div>
+
+            <PopupAddTask
+                open={openPoppupAddTask}
+                setOpen={setOpenPoppupAddTask}
+                type={Config.TASK_TYPE_GROUP}
+                workspace={currentWs}
+                project={currentProject}
+                memberProject={allUser.map((u) => u.userInfo)}
+                mode={mode}
+                setMode={setMode}
+                role={Config.USERTASK_ROLE_NONE}
+            />
         </>
     );
 }

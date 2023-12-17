@@ -1,6 +1,7 @@
 class Config {
     static USERTASK_ROLE_ADMIN = 1;
     static USERTASK_ROLE_MEMBER = 2;
+    static USERTASK_ROLE_NONE = 0;
     static USERWORKSPACE_ROLE_ADMIN = 1;
     static USERWORKSPACE_ROLE_MEMBER = 2;
     static USERPROJECT_ROLE_ADMIN = 1;
@@ -16,9 +17,9 @@ class Config {
     static TASK_TYPE_INDIVIDUAL = "individual";
     static TASK_TYPE_GROUP = "group";
 
-    static MODE_VIEW_EVENT = "view";
-    static MODE_EDIT_EVENT = "edit";
-    static MODE_CREATE_EVENT = "create";
+    static MODE_VIEW = "view";
+    static MODE_EDIT = "edit";
+    static MODE_CREATE = "create";
 
     static TASK_PROGRESS = {
         TO_DO: "To do",

@@ -17,7 +17,7 @@ export const createProjectApi = (args: {
     });
 };
 
-export const getAllTaskOfProjectApi = (args: { _id: string }) => {
+export const getAllTaskOfProjectApi = (args: { _id: string; userId: string }) => {
     return POST({
         url: APIConfig.GET_ALL_TASK_OF_PROJECT,
         params: args,

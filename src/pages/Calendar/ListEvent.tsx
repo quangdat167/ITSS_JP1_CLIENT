@@ -34,7 +34,7 @@ function ListEvent() {
                                     onClick={() => {
                                         setOpenPopupAddEvent(true);
                                         setSelectedEvent(event);
-                                        setMode(Config.MODE_VIEW_EVENT);
+                                        setMode(Config.MODE_VIEW);
                                     }}
                                 >
                                     <ListItemText primary={event.name} />
@@ -51,7 +51,7 @@ function ListEvent() {
                         startIcon={<AddTaskIcon />}
                         onClick={() => {
                             setOpenPopupAddEvent(true);
-                            setMode(Config.MODE_CREATE_EVENT);
+                            setMode(Config.MODE_CREATE);
                         }}
                     >
                         Create new event
