@@ -39,17 +39,21 @@ function MenuUser() {
                         alt="avatar"
                         className={cx("user-avatar")}
                     />
-                    {userInfo.lastName}
+                    {userInfo.firstName + " " + userInfo.lastName}
                 </Link>
                 <ul className="dropdown-menu dropdown-menu-end" data-bs-theme="light">
                     <li>
-                        <Link className="dropdown-item" to=""></Link>
+                        <Link className="dropdown-item" to="">
+                            Change password
+                        </Link>
                     </li>
                     <li>
                         <hr className="dropdown-divider" />
                     </li>
                     <li>
-                        <Link className="dropdown-item" to=""></Link>
+                        <Link className="dropdown-item" to="">
+                            Settings
+                        </Link>
                     </li>
                     <li>
                         <hr className="dropdown-divider" />

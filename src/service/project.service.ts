@@ -33,3 +33,12 @@ export const getAllUserOfProjectApi = (args: { _id: string }) => {
         return data;
     });
 };
+
+export const getAllProjectByUserApi = (args: { userId: string }) => {
+    return POST({
+        url: APIConfig.GET_ALL_PROJECT_BY_USER,
+        params: args,
+    }).then((data: any) => {
+        return data;
+    });
+};

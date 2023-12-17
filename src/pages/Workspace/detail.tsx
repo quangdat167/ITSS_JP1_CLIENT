@@ -41,6 +41,14 @@ export interface IUserTask {
     taskId: string;
 }
 
+export interface IUserProject {
+    _id: string;
+    role: number;
+    userId: string;
+    projectId: string;
+    projectInfo: IProject;
+}
+
 export interface IProject {
     _id: string;
     name: string;
@@ -48,6 +56,7 @@ export interface IProject {
     userId: string;
     deadline: Date;
     wsId: string;
+    workspaceName?: string;
 }
 
 export interface ITask {
@@ -91,7 +100,7 @@ export interface DetailWorkspace {
     updatedAt?: Date;
 }
 
-function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
+export function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
     return (
         <Box sx={{ display: "flex", alignItems: "center" }}>
             <Box sx={{ width: "100%", mr: 1 }}>
@@ -234,7 +243,7 @@ export const WorkspaceDetailPage = () => {
                                 >
                                     <CardContent>
                                         <Typography
-                                            sx={{ fontSize: 16, fontWeight: 500 }}
+                                            sx={{ fontSize: 16, fontWeight: 600 }}
                                             gutterBottom
                                         >
                                             {project.name}
@@ -261,7 +270,7 @@ export const WorkspaceDetailPage = () => {
                                             variant="body2"
                                             color="text.secondary"
                                         >
-                                            {daysLeft > 0 ? `${daysLeft} day lefts` : "Out of date"}
+                                            {daysLeft > 0 ? `${daysLeft} day lefts` : "Overdue"}
                                         </Typography>
                                     </CardContent>
                                 </Card>
