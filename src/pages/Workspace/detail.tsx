@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Workspace } from ".";
 import {
     getAllTaskOfWsApi,
     getAllUserOfWorkspaceApi,
     getDetailWorkspaceByIdApi,
     getWorkspaceByUserIdApi,
+    outWsApi,
 } from "service/workspace.service";
 import { useSelector } from "react-redux";
 import { RootState } from "redux/store";
@@ -27,6 +29,7 @@ import PopupAddUserToWorkspace from "components/popup/addUserToWorkspacePopup";
 import TableUserInWorkspace from "components/table-user-in-workspace";
 import ProjectDetail from "pages/Project-Detail";
 import Config from "utils/Config";
+import RouteConfig from "routes/Route";
 export interface IUserWorkspace {
     _id: string;
     role: number;
@@ -128,6 +131,7 @@ export const WorkspaceDetailPage = () => {
 
     const [openLayoutProject, setOpenLayoutProject] = useState(false);
     const [currentProject, setCurrentProject] = useState({} as IProject);
+    const [roleInWs, setRoleInWs] = useState(0);
 
     useEffect(() => {
         const getWs = async () => {
@@ -156,15 +160,38 @@ export const WorkspaceDetailPage = () => {
             }
         };
 
-        workspace._id && getAllUserOfWs();
+        if (workspace._id) {
+            getAllUserOfWs();
+            const roleUser = workspace?.members?.find((mem) => mem.userId === userInfo._id)?.role;
+            if (roleUser) {
+                setRoleInWs(roleUser);
+            }
+        }
     }, [workspace._id]);
+
+    const handleOutWs = async () => {
+        const shouldDelete = window.confirm("Leave workspace?");
+        if (shouldDelete) {
+            await outWsApi({ wsId: workspace._id, userId: userInfo._id });
+            window.open(RouteConfig.WORKSPACE, "_self");
+        }
+    };
 
     return (
         <>
             {!openLayoutProject ? (
                 <div className="p-3 detail-workspace-wrapper">
                     <div className="d-flex justify-content-between">
-                        <div className="fs-3 fw-medium">My Workspace</div>
+                        <div className="fs-3 fw-medium">{workspace.name}</div>
+                        <Button
+                            size="small"
+                            variant="outlined"
+                            color="error"
+                            startIcon={<ExitToAppIcon />}
+                            onClick={handleOutWs}
+                        >
+                            Leave workspace
+                        </Button>
                     </div>
 
                     <div className="my-3 d-flex justify-content-between">
@@ -196,7 +223,7 @@ export const WorkspaceDetailPage = () => {
                             <Button
                                 size="small"
                                 variant="outlined"
-                                color="error"
+                                color="info"
                                 startIcon={<AddIcon />}
                                 onClick={() => {
                                     setOpenPopupAddProject(true);
@@ -295,11 +322,16 @@ export const WorkspaceDetailPage = () => {
                         wsId={workspace._id}
                         userOfWs={userOfWs}
                     />
-                    <TableUserInWorkspace
-                        userInfos={workspace.member}
-                        open={openPopupViewUser}
-                        setOpen={setOpenPopupViewUser}
-                    />
+                    {roleInWs > 0 && (
+                        <TableUserInWorkspace
+                            userInfos={workspace.member}
+                            open={openPopupViewUser}
+                            setOpen={setOpenPopupViewUser}
+                            roleInWs={roleInWs}
+                            workspace={workspace}
+                            members={workspace.members}
+                        />
+                    )}
                 </div>
             ) : (
                 <>

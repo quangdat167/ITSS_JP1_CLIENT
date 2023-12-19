@@ -47,7 +47,7 @@ function ListEvent() {
                 <div className="add-event">
                     <Button
                         variant="outlined"
-                        color="error"
+                        color="info"
                         startIcon={<AddTaskIcon />}
                         onClick={() => {
                             setOpenPopupAddEvent(true);

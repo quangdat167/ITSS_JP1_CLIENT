@@ -41,7 +41,7 @@ export const WorkspacePage = () => {
                 <div className="d-flex gap-2">
                     <Button
                         variant="outlined"
-                        color="error"
+                        color="info"
                         startIcon={<AddIcon />}
                         onClick={() => {
                             setOpenPopupAddWorkspace(true);
@@ -52,7 +52,7 @@ export const WorkspacePage = () => {
                     </Button>
                     <Button
                         variant="outlined"
-                        color="error"
+                        color="info"
                         startIcon={<LoginIcon />}
                         onClick={() => {
                             setOpenPopupJoinWorkspace(true);

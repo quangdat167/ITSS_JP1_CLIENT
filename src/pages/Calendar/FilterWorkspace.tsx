@@ -60,8 +60,6 @@ export default function FilterWorkspace() {
         } else getEvents(selectedWs);
     }, [selectedWs]);
 
-    console.log(selectedWs);
-
     return (
         <>
             <FormControl sx={{ m: 1, width: "100%", margin: 0 }}>

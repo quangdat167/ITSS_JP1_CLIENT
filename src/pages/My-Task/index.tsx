@@ -55,7 +55,7 @@ export const MyTaskPage = () => {
                     <Button
                         size="small"
                         variant="outlined"
-                        color="error"
+                        color="info"
                         startIcon={<AddIcon />}
                         onClick={() => {
                             setOpenPoppupAddTask(true);

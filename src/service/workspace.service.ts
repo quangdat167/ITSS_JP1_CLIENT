@@ -63,3 +63,12 @@ export const getAllTaskOfWsApi = (args: { wsId: string }) => {
         return data;
     });
 };
+
+export const outWsApi = (args: { wsId: string; userId: string }) => {
+    return POST({
+        url: APIConfig.OUT_WORKSPACE,
+        params: args,
+    }).then((data: any) => {
+        return data;
+    });
+};

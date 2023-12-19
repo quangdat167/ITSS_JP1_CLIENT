@@ -90,7 +90,7 @@ export default function PopupAddUserToWorkspace({
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button onClick={handleAddWorkspace} variant="contained">
-                        Create
+                        Confirm
                     </Button>
                 </DialogActions>
             </Dialog>
