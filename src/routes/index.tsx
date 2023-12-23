@@ -1,7 +1,6 @@
 import React from "react";
 
 import HeaderOnly from "components/Layout/HeaderOnly";
-import Home from "pages/Home";
 import SignIn from "pages/SignIn";
 import SignUp from "pages/SignUp";
 import { DefaultLayout } from "components/Layout";
@@ -12,6 +11,7 @@ import { WorkspacePage } from "pages/Workspace";
 import CalendarPage from "pages/Calendar";
 import ForgotPasswordPage from "pages/ForgotPassword";
 import { WorkspaceDetailPage } from "pages/Workspace/detail";
+import { HomePage } from "pages/Home";
 
 interface RouterConfig {
     path: string;
@@ -27,7 +27,7 @@ const publicRoutes: RouterConfig[] = [
 ];
 
 const privateRoutes: RouterConfig[] = [
-    { path: RouteConfig.HOME, component: Home, layout: DefaultLayout },
+    { path: RouteConfig.HOME, component: HomePage, layout: DefaultLayout },
     { path: RouteConfig.CALENDAR, component: CalendarPage, layout: DefaultLayout },
     { path: RouteConfig.DASHBOARD, component: DashboardPage, layout: DefaultLayout },
     { path: RouteConfig.MY_TASK, component: MyTaskPage, layout: DefaultLayout },

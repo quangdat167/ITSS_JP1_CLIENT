@@ -55,14 +55,14 @@ export default function FindUserInput({
                 ]);
             }}
             options={fixedOptions}
-            getOptionLabel={(option) => option.email}
+            getOptionLabel={(option) => option?.email}
             renderTags={(tagValue, getTagProps) =>
                 tagValue.map((option, index) => {
                     return (
                         <Chip
-                            label={option.email}
+                            label={option?.email}
                             {...getTagProps({ index })}
-                            disabled={userEmail.find((e) => e.email === option.email)}
+                            disabled={userEmail.find((e) => e?.email === option?.email)}
                         />
                     );
                 })

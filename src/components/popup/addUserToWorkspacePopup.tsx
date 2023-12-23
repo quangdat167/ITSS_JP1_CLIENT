@@ -44,8 +44,6 @@ export default function PopupAddUserToWorkspace({
                 .map((e: any) => e._id),
         };
 
-        console.log("params: ", params);
-
         const newuserWs = await addUserToWorkspaceApi(params);
 
         if (newuserWs) {

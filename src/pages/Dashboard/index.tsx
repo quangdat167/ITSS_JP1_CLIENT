@@ -73,13 +73,13 @@ export const DashboardPage = () => {
         {
             title: "Done",
             value: Math.floor((tasksDone.length / allTask.length) * 100),
-            color: "blue",
+            color: "green",
             key: "dfsd",
         },
         {
             title: "Inprogress",
             value: Math.floor((tasksNotDone.length / allTask.length) * 100),
-            color: "green",
+            color: "blue",
         },
         {
             title: "Overdue",

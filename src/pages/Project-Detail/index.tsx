@@ -40,6 +40,7 @@ function ProjectDetail({
     const [tasksDone, setTaskDone] = useState([] as ITask[]);
     const [openPoppupAddTask, setOpenPoppupAddTask] = useState(false);
     const [mode, setMode] = useState("");
+    const [isUserOfWs, setIsUserOfWs] = useState(false);
     useEffect(() => {
         const getAllTask = async () => {
             const alltaskApi = await getAllTaskOfProjectApi({
@@ -72,6 +73,7 @@ function ProjectDetail({
         if (allUser.length) {
             setAdminProject(allUser.filter((u) => u.role === Config.USERPROJECT_ROLE_ADMIN));
             setMemberProject(allUser.filter((u) => u.role !== Config.USERPROJECT_ROLE_ADMIN));
+            setIsUserOfWs(!!allUser.find((u) => u.userId === userInfo._id));
         }
     }, [allUser]);
 
@@ -87,18 +89,20 @@ function ProjectDetail({
 
                 <div className="w-100 d-flex justify-content-between  align-items-center">
                     <div className="fs-3 fw-medium">{currentProject.name}</div>
-                    <Button
-                        size="small"
-                        variant="outlined"
-                        color="info"
-                        startIcon={<AddIcon />}
-                        onClick={() => {
-                            setOpenPoppupAddTask(true);
-                            setMode(Config.MODE_CREATE);
-                        }}
-                    >
-                        Create new task
-                    </Button>
+                    {isUserOfWs && (
+                        <Button
+                            size="small"
+                            variant="outlined"
+                            color="info"
+                            startIcon={<AddIcon />}
+                            onClick={() => {
+                                setOpenPoppupAddTask(true);
+                                setMode(Config.MODE_CREATE);
+                            }}
+                        >
+                            Create new task
+                        </Button>
+                    )}
                 </div>
             </div>
             <div className="d-flex gap-2 mt-3">
