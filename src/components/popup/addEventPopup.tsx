@@ -123,6 +123,7 @@ export default function PopupAddEvent({
             if (newEvent) {
                 dispatch(addEvent([newEvent]));
                 handleClose();
+                window.location.reload();
             }
         }
     };

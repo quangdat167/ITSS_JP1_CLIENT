@@ -187,10 +187,10 @@ function SignUp() {
             // Gọi API xử lý đăng ký
 
             await createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
+                .then(async (userCredential) => {
                     // Signed up
                     // let user = userCredential.user;
-                    let user = loginApi({
+                    let user = await loginApi({
                         firstName,
                         lastName,
                         password,
